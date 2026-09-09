@@ -9,7 +9,7 @@
 <div class="filters" id="filters" aria-label="Actividad"></div><div class="row"><span class="count" id="count" aria-live="polite">Cargando…</span><div class="toolbar"><select id="zone" aria-label="Filtrar por barrio"><option value="">Todos los barrios</option><option>Palermo</option><option>Parque Rodó</option><option>Pocitos</option><option>Centro</option></select><button class="secondary" id="reload" aria-label="Actualizar planes">Actualizar</button></div></div>
 <p class="error" id="load-error" role="alert"></p><section class="grid" id="plans" aria-label="Planes disponibles"><p class="muted">Conectando con Pinta…</p></section><div class="more-wrap"><button id="more" class="secondary" hidden>Ver más planes</button></div></main>
 <nav class="nav" aria-label="Navegación principal"><button id="explore" aria-pressed="true">Explorar</button><button data-create>+ Crear plan</button><button id="mine" aria-pressed="false">Mis planes</button></nav>
-<dialog id="detail" aria-labelledby="detail-title"><div class="dialog-top"><h2 id="detail-title">Plan</h2><button class="close" aria-label="Cerrar" data-close>×</button></div><div id="detail-body"></div><p class="error" id="detail-error" role="alert"></p><button id="join" class="primary wide">Sumarme al plan</button><button id="cancel-plan" class="link-button wide" hidden>Cancelar este plan</button><p class="notice">Los horarios se muestran en hora de Montevideo.</p></dialog>
+<dialog id="detail" aria-labelledby="detail-title"><div class="dialog-top"><h2 id="detail-title">Plan</h2><button class="close" aria-label="Cerrar" data-close>×</button></div><div id="detail-body"></div><p class="error" id="detail-error" role="alert"></p><button id="join" class="primary wide">Sumarme al plan</button><button id="share-plan" class="secondary wide" hidden>Compartir plan</button><div id="share-fallback" hidden><label for="share-link">Copiá este enlace para compartir</label><input id="share-link" type="url" readonly></div><button id="cancel-plan" class="link-button wide" hidden>Cancelar este plan</button><p class="notice">Los horarios se muestran en hora de Montevideo.</p></dialog>
 <dialog id="create" aria-labelledby="create-title"><div class="dialog-top"><h2 id="create-title">Armá tu plan</h2><button class="close" aria-label="Cerrar" data-close>×</button></div><form id="form">
 <label for="host-name">Tu nombre para este plan</label><input id="host-name" maxlength="40" required autocomplete="nickname">
 <label for="title">¿Qué querés hacer?</label><input id="title" maxlength="70" placeholder="Una vuelta en patines" required>
@@ -37,7 +37,26 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt
 let db, user = null, plans = [], activity = 'Todos', onlyMine = false, selectedId = null;
 let authMode = 'login', afterAuth = null, requestNumber = 0, hasMore = false, toastTimer;
 let actionBusy = false, initialReady = false;
+let initializing = false, sharedPlanOpened = false, detailRequest = 0;
 const PAGE_SIZE = 40;
+// Bound reads only. A timed-out write could already have been saved by the server.
+async function boundedRead(request, milliseconds = 15000) {
+  let timer;
+  try {
+    return await Promise.race([request, new Promise((_, reject) => {
+      timer = setTimeout(() => reject(Error('La conexión está tardando demasiado. Tocá Actualizar para volver a intentar.')), milliseconds);
+    })]);
+  } finally { clearTimeout(timer); }
+}
+function sharedPlanId() {
+  const id = new URL(window.location.href).searchParams.get('plan');
+  return id && /^[a-zA-Z0-9_-]{1,80}$/.test(id) ? id : null;
+}
+function planLink(id) {
+  const url = new URL(SITE_URL);
+  url.searchParams.set('plan', id);
+  return url.href;
+}
 function participants(p) { return p.pinta_participants || []; }
 function owns(p) { return Boolean(user && p.owner_id === user.id); }
 function attends(p) { return Boolean(user && (owns(p) || participants(p).some(m => m.user_id === user.id))); }
@@ -88,7 +107,7 @@ function render() {
 async function myPlanIds() {
   const ids = [];
   for (let start = 0; ; start += 500) {
-    const {data,error} = await db.from('pinta_participants').select('plan_id').eq('user_id',user.id).order('plan_id').range(start,start+499);
+    const {data,error} = await boundedRead(db.from('pinta_participants').select('plan_id').eq('user_id',user.id).order('plan_id').range(start,start+499));
     if (error) throw error;
     ids.push(...data.map(row=>row.plan_id));
     if (data.length < 500) return ids;
@@ -98,6 +117,7 @@ async function loadPlans(append = false) {
   if (!db || !initialReady) return;
   const ticket = ++requestNumber;
   $('load-error').textContent = '';
+  $('plans').setAttribute('aria-busy', 'true');
   $('reload').disabled = true; $('more').disabled = true;
   if (!append) { plans = []; $('plans').innerHTML = '<p class="muted">Cargando planes…</p>'; $('more').hidden=true; $('count').textContent=''; }
   try {
@@ -111,7 +131,7 @@ async function loadPlans(append = false) {
       query = ids.length ? query.or(`owner_id.eq.${user.id},id.in.(${ids.join(',')})`) : query.eq('owner_id',user.id);
     }
     const start = append ? plans.length : 0;
-    const {data,error}=await query.range(start,start+PAGE_SIZE-1);
+    const {data,error}=await boundedRead(query.range(start,start+PAGE_SIZE-1));
     if(error)throw error;
     if(ticket!==requestNumber)return;
     hasMore=data.length===PAGE_SIZE;
@@ -121,10 +141,10 @@ async function loadPlans(append = false) {
     if(ticket!==requestNumber)return;
     $('load-error').textContent=explain(error);
     if(!append){$('plans').innerHTML='';$('count').textContent='No se pudieron cargar los planes';}
-  } finally { if(ticket===requestNumber){$('reload').disabled=false;$('more').disabled=false;} }
+  } finally { if(ticket===requestNumber){$('reload').disabled=false;$('more').disabled=false;$('plans').setAttribute('aria-busy','false');} }
 }
 async function readPlan(id) {
-  const {data,error}=await db.from('pinta_plans').select(FIELDS).eq('id',id).single();
+  const {data,error}=await boundedRead(db.from('pinta_plans').select(FIELDS).eq('id',id).single());
   if(error)throw error;
   return data;
 }
@@ -136,11 +156,32 @@ function detailHTML(p) {
   $('join').textContent=owns(p)?'Este plan lo organizás vos':attends(p)?'Salir del plan':past?'El plan ya comenzó':nextSeat(p)===null?'Plan completo':user?'Sumarme al plan':'Entrar para sumarme';
   $('join').disabled=actionBusy||owns(p)||(!attends(p)&&(past||nextSeat(p)===null));
   $('cancel-plan').hidden=!owns(p);
+  $('share-plan').hidden=false;
+  $('share-link').value=planLink(p.id);
 }
 async function showPlan(id) {
+  const ticket = ++detailRequest;
   selectedId=id; $('detail-error').textContent=''; $('detail-title').textContent='Cargando plan…';
+  $('share-plan').hidden=true;$('share-fallback').hidden=true;
   $('detail-body').textContent='';$('join').disabled=true;$('cancel-plan').hidden=true;openDialog('detail');
-  try {const p=await readPlan(id);if(selectedId===id)detailHTML(p);} catch(error){if(selectedId===id){$('detail-title').textContent='No se pudo abrir el plan';$('detail-error').textContent=explain(error);}}
+  try {const p=await readPlan(id);if(selectedId===id&&ticket===detailRequest)detailHTML(p);} catch(error){if(selectedId===id&&ticket===detailRequest){$('detail-title').textContent='No se pudo abrir el plan';$('detail-error').textContent=explain(error);}}
+}
+async function sharePlan() {
+  const id=selectedId, url=$('share-link').value, title=$('detail-title').textContent;
+  if(!id||$('share-plan').hidden)return;
+  try {
+    if(navigator.share) {
+      await navigator.share({title, text:'¿Te sumás a este plan en Pinta?', url});
+      return;
+    }
+    if(navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(url);
+      notice('Enlace copiado. Ya podés enviarlo.');
+      return;
+    }
+  } catch(error) { if(error.name==='AbortError')return; }
+  if(selectedId!==id)return;
+  $('share-fallback').hidden=false;$('share-link').focus();$('share-link').select();
 }
 function openAuth(mode='login',next=null) {
   authMode=mode;afterAuth=next;
@@ -204,12 +245,13 @@ document.addEventListener('click',event=>{
   if(b.dataset.plan)showPlan(b.dataset.plan);
 });
 ['Todos','Deporte','Comida','Juegos','Paseos'].forEach(c=>{const b=document.createElement('button');b.className='chip';b.textContent=c;b.onclick=()=>{activity=c;loadPlans()};$('filters').append(b)});
-$('zone').onchange=()=>loadPlans();$('reload').onclick=()=>loadPlans();$('more').onclick=()=>loadPlans(true);
+$('zone').onchange=()=>loadPlans();$('reload').onclick=()=>initialReady?loadPlans():init();$('more').onclick=()=>loadPlans(true);
 $('explore').onclick=()=>{onlyMine=false;loadPlans()};
 $('mine').onclick=()=>{if(!user){openAuth('login','mine');return;}onlyMine=true;activity='Todos';$('zone').value='';loadPlans()};
 $('account').onclick=()=>{if(!db||!initialReady){notice('La conexión todavía no está lista.');return;}user?openDialog('profile'):openAuth()};
 $('login-tab').onclick=()=>openAuth('login',afterAuth);$('signup-tab').onclick=()=>openAuth('signup',afterAuth);$('forgot').onclick=()=>openAuth('reset',afterAuth);
 $('join').onclick=changeMembership;
+$('share-plan').onclick=sharePlan;
 $('auth-form').onsubmit=async event=>{
   event.preventDefault();const button=$('auth-submit');if(button.disabled)return;
   button.disabled=true;$('auth-message').textContent='';
@@ -262,18 +304,36 @@ $('confirm-delete').onclick=async()=>{
   catch(error){$('cancel-error').textContent=explain(error);}finally{button.disabled=false;}
 };
 async function init() {
-  if(!window.supabase){$('load-error').textContent='No se pudo cargar la conexión. Revisá internet y recargá la página.';$('plans').textContent='';return;}
-  db=window.supabase.createClient(PROJECT_URL,PUBLIC_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-  db.auth.onAuthStateChange((event,session)=>{
-    const before=user?.id;user=session?.user||null;authUI();
-    if(event==='PASSWORD_RECOVERY')openAuth('update');
-    if(event==='SIGNED_OUT'){onlyMine=false;for(const id of ['detail','create','profile','confirm-cancel'])if($(id).open)$(id).close();}
-    if(initialReady&&before!==user?.id)setTimeout(()=>loadPlans(),0);
-  });
-  try{const {data,error}=await db.auth.getSession();if(error)throw error;user=data.session?.user||null;initialReady=true;authUI();await loadPlans();}
-  catch(error){$('load-error').textContent=explain(error);}
+  if(initializing)return;
+  initializing=true;$('reload').disabled=true;$('load-error').textContent='';
+  $('count').textContent='Conectando…';
+  try {
+    if(!window.supabase) {
+      $('reload').textContent='Recargar página';
+      $('reload').onclick=()=>window.location.reload();
+      throw Error('No se pudo cargar la conexión. Revisá internet y tocá Recargar página.');
+    }
+    if(!db) {
+      db=window.supabase.createClient(PROJECT_URL,PUBLIC_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+      db.auth.onAuthStateChange((event,session)=>{
+        const before=user?.id;user=session?.user||null;authUI();
+        if(event==='PASSWORD_RECOVERY')openAuth('update');
+        if(event==='SIGNED_OUT'){onlyMine=false;for(const id of ['detail','create','profile','confirm-cancel'])if($(id).open)$(id).close();}
+        if(initialReady&&before!==user?.id)setTimeout(()=>loadPlans(),0);
+      });
+    }
+    const {data,error}=await boundedRead(db.auth.getSession());
+    if(error)throw error;
+    user=data.session?.user||null;initialReady=true;authUI();
+    await loadPlans();
+    const id=sharedPlanId();
+    if(id&&!sharedPlanOpened&&!$('auth').open){sharedPlanOpened=true;await showPlan(id);}
+  } catch(error) {
+    $('load-error').textContent=explain(error);$('plans').textContent='';
+    $('count').textContent='No se pudo conectar';
+  } finally {initializing=false;$('reload').disabled=false;}
 }
-window.addEventListener('online',()=>loadPlans());
+window.addEventListener('online',()=>initialReady?loadPlans():init());
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&initialReady&&!document.querySelector('dialog[open]'))loadPlans()});
 init();
 
