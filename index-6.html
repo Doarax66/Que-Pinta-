@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="es-UY"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#183eec"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name="description" content="Encontrá y creá planes para conocer gente en Montevideo."><title>Pinta · Planes en Montevideo</title><style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#17203b;background:#f3f5fa;font-size:16px}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button,select{cursor:pointer}button{min-height:46px;border:0;border-radius:14px;padding:11px 17px;font-weight:650}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #f3b52c;outline-offset:3px}header{background:#fff;border-bottom:1px solid #e1e5ee;padding:20px max(20px,calc((100% - 1000px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-size:30px;font-weight:850;letter-spacing:-1.6px;color:#183eec}.location{font-size:14px;color:#515b73}main{max-width:1040px;margin:auto;padding:26px 20px 100px}.demo{font-size:14px;background:#e7ecff;color:#2442a9;border-radius:12px;padding:12px 15px;margin:0 0 27px}.heading{display:flex;justify-content:space-between;align-items:center;gap:16px}h1{font-size:clamp(28px,5vw,40px);letter-spacing:-1.4px;margin:0 0 8px;line-height:1.15}.muted{color:#606a7e}.intro{margin:0 0 24px}.primary{background:#183eec;color:white}.secondary{background:#edf0f7;color:#293551}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.chip{background:#fff;border:1px solid #dce1ec;border-radius:30px;font-size:14px}.chip[aria-pressed=true]{background:#17203b;color:white;border-color:#17203b}.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}.row select{max-width:55%;border:1px solid #dce1ec;border-radius:12px;padding:10px;background:white;color:#283650}.count{font-size:14px;color:#606a7e}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{background:white;border:1px solid #e1e5ee;border-radius:22px;padding:23px;display:flex;flex-direction:column;align-items:flex-start}.category{font-size:14px;font-weight:700;color:#183eec;background:#edf1ff;border-radius:9px;padding:7px 10px}.card h2{font-size:23px;line-height:1.25;letter-spacing:-.5px;margin:17px 0 12px}.meta{color:#58637a;margin:0 0 8px;font-size:15px}.card-footer{margin-top:auto;padding-top:20px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px}.spots{font-size:14px;font-weight:650}.card-footer button{background:#edf1ff;color:#183eec}.nav{position:fixed;bottom:0;left:0;right:0;background:#fffffff5;border-top:1px solid #e1e5ee;display:flex;justify-content:center;gap:12px;padding:10px 18px calc(10px + env(safe-area-inset-bottom));backdrop-filter:blur(10px)}.nav button{font-size:14px;background:transparent;color:#5a647b}.nav button[aria-pressed=true]{color:#183eec;background:#edf1ff}.empty{grid-column:1/-1;text-align:center;padding:45px 18px;background:white;border-radius:22px}dialog{border:0;border-radius:24px;width:min(520px,calc(100% - 24px));padding:25px;color:#17203b;max-height:90dvh;overflow:auto}dialog::backdrop{background:#111b3a99}.dialog-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.dialog-top h2{font-size:25px;margin:0}.close{background:#eef0f6;font-size:22px;padding:4px 14px}label{display:block;font-weight:600;font-size:14px;margin:17px 0 6px}input,select,textarea{width:100%;border:1px solid #cfd6e4;border-radius:10px;padding:12px;background:white;color:#17203b}textarea{resize:vertical}.wide{width:100%;margin-top:20px}.people{padding:14px;background:#f3f5fa;border-radius:12px;line-height:1.8}.notice{font-size:14px;color:#657086;line-height:1.5}.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#17203b;color:white;padding:14px 20px;border-radius:14px;z-index:4;width:max-content;max-width:90%;font-size:14px}.toast:empty{display:none}@media(max-width:600px){.grid{grid-template-columns:1fr}.heading>.primary{display:none}main{padding-top:20px}.card{padding:20px}.brand{font-size:28px}.intro{font-size:16px}.row{align-items:center}.nav{gap:2px;justify-content:space-around}.nav button{padding:11px 12px}}
+
+[hidden]{display:none!important}button:disabled{opacity:.55;cursor:default}.error{color:#a52535;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;line-height:1.5}.error:empty{display:none}.auth-message{white-space:pre-wrap;line-height:1.5;font-size:15px}.description{white-space:pre-wrap;overflow-wrap:anywhere}.card h2,.dialog-top h2,.people{overflow-wrap:anywhere}.beta{color:#526078;font-size:14px;margin:0 0 22px}.toolbar{display:flex;align-items:center;gap:10px}.link-button{background:transparent;color:#183eec;text-decoration:underline;font-size:14px}.danger{background:#a52535;color:#fff}.header-right{display:flex;gap:14px;align-items:center}.auth-tabs{display:flex;gap:8px;margin-top:20px}.form-hint{font-size:14px;color:#5b667c;line-height:1.5}.dialog-top{align-items:flex-start}.close{flex-shrink:0}.toast{pointer-events:none}.more-wrap{text-align:center;margin-top:20px}dialog{overscroll-behavior:contain}header .location{display:block}@media(max-width:600px){.header-right .location{display:none}.row{flex-wrap:wrap}.row select{max-width:100%;width:auto;flex:1}.toolbar{margin-left:auto}.nav button{padding:11px 9px}.card-footer{flex-wrap:wrap}}
+</style></head><body>
+<header><span class="brand">pinta<span style="color:#eea923">.</span></span><div class="header-right"><span class="location">Montevideo, Uruguay</span><button id="account" class="secondary">Entrar</button></div></header>
+<main><p class="beta">PRIMERA VERSIÓN · Montevideo</p><div class="heading"><h1>¿Qué pinta hacer?</h1><button class="primary" data-create>+ Crear un plan</button></div><p class="intro muted">Un plan cerca. Gente nueva. Vos te sumás.</p>
+<div class="filters" id="filters" aria-label="Actividad"></div><div class="row"><span class="count" id="count" aria-live="polite">Cargando…</span><div class="toolbar"><select id="zone" aria-label="Filtrar por barrio"><option value="">Todos los barrios</option><option>Palermo</option><option>Parque Rodó</option><option>Pocitos</option><option>Centro</option></select><button class="secondary" id="reload" aria-label="Actualizar planes">Actualizar</button></div></div>
+<p class="error" id="load-error" role="alert"></p><section class="grid" id="plans" aria-label="Planes disponibles"><p class="muted">Conectando con Pinta…</p></section><div class="more-wrap"><button id="more" class="secondary" hidden>Ver más planes</button></div></main>
+<nav class="nav" aria-label="Navegación principal"><button id="explore" aria-pressed="true">Explorar</button><button data-create>+ Crear plan</button><button id="mine" aria-pressed="false">Mis planes</button></nav>
+<dialog id="detail" aria-labelledby="detail-title"><div class="dialog-top"><h2 id="detail-title">Plan</h2><button class="close" aria-label="Cerrar" data-close>×</button></div><div id="detail-body"></div><p class="error" id="detail-error" role="alert"></p><button id="join" class="primary wide">Sumarme al plan</button><button id="share-plan" class="secondary wide" hidden>Compartir plan</button><div id="share-fallback" hidden><label for="share-link">Copiá este enlace para compartir</label><input id="share-link" type="url" readonly></div><button id="cancel-plan" class="link-button wide" hidden>Cancelar este plan</button><p class="notice">Los horarios se muestran en hora de Montevideo.</p></dialog>
+<dialog id="create" aria-labelledby="create-title"><div class="dialog-top"><h2 id="create-title">Armá tu plan</h2><button class="close" aria-label="Cerrar" data-close>×</button></div><form id="form">
+<label for="host-name">Tu nombre para este plan</label><input id="host-name" maxlength="40" required autocomplete="nickname">
+<label for="title">¿Qué querés hacer?</label><input id="title" maxlength="70" placeholder="Una vuelta en patines" required>
+<label for="category">Actividad</label><select id="category"><option>Deporte</option><option>Comida</option><option>Juegos</option><option>Paseos</option></select>
+<label for="neighborhood">Barrio</label><select id="neighborhood"><option>Palermo</option><option>Parque Rodó</option><option>Pocitos</option><option>Centro</option></select>
+<label for="place">Punto de encuentro público</label><input id="place" maxlength="150" placeholder="Entrada principal del parque" required>
+<label for="date">Día y hora de Montevideo</label><input id="date" type="datetime-local" required>
+<label for="capacity">Cupos totales, incluyéndote</label><input id="capacity" type="number" min="2" max="30" value="6" required>
+<label for="description">Contá un poco más</label><textarea id="description" maxlength="400" rows="3" placeholder="Qué llevar, nivel, costo por persona…" required></textarea><p class="form-hint">El plan y los nombres de quienes participan serán visibles para quienes visiten Pinta.</p><p class="error" id="create-error" role="alert"></p><button id="create-submit" class="primary wide" type="submit">Publicar plan</button></form></dialog>
+<dialog id="auth" aria-labelledby="auth-title"><div class="dialog-top"><h2 id="auth-title">Entrá a Pinta</h2><button class="close" aria-label="Cerrar" data-close>×</button></div>
+<div id="auth-tabs" class="auth-tabs"><button id="login-tab" class="secondary">Ya tengo cuenta</button><button id="signup-tab" class="secondary">Crear cuenta</button></div>
+<form id="auth-form"><div id="name-field" hidden><label for="auth-name">¿Cómo querés aparecer?</label><input id="auth-name" maxlength="40" autocomplete="nickname" placeholder="Tu nombre o apodo"></div><div id="email-field"><label for="auth-email">Correo electrónico</label><input id="auth-email" type="email" autocomplete="email" required></div><div id="password-field"><label for="auth-password">Contraseña</label><input id="auth-password" type="password" autocomplete="current-password" required></div><p class="form-hint" id="privacy-hint" hidden>Usá al menos 10 caracteres en tu contraseña. Tu nombre será visible en los planes; tu correo no se muestra.</p><p id="auth-message" class="auth-message" role="status"></p><button id="auth-submit" type="submit" class="primary wide">Entrar</button></form><button id="forgot" class="link-button wide">Olvidé mi contraseña</button></dialog>
+<dialog id="profile" aria-labelledby="profile-title"><div class="dialog-top"><h2 id="profile-title">Mi cuenta</h2><button class="close" aria-label="Cerrar" data-close>×</button></div><p id="account-name"></p><p class="muted" id="account-email" style="overflow-wrap:anywhere"></p><p class="error" id="profile-error" role="alert"></p><button id="signout" class="secondary wide">Cerrar sesión</button></dialog>
+<dialog id="confirm-cancel" aria-labelledby="cancel-heading"><h2 id="cancel-heading">¿Cancelar el plan?</h2><p id="cancel-title"></p><p>El plan y sus inscripciones se eliminarán.</p><p class="error" id="cancel-error" role="alert"></p><button class="secondary wide" data-close>Volver</button><button id="confirm-delete" class="danger wide">Sí, cancelar el plan</button></dialog>
+<div class="toast" id="toast" role="status"></div><noscript><p>Activá JavaScript en tu navegador para usar Pinta.</p></noscript>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"></script>
+<script>
+'use strict';
+const PROJECT_URL = 'https://duieibwtyxrqfzlhqbap.supabase.co';
+const PUBLIC_KEY = 'sb_publishable_CPK0XrZ2o4ivRb1VpTh3hw_ADYw26EH';
+const SITE_URL = 'https://doarax66.github.io/Que-Pinta-/';
+const FIELDS = 'id,owner_id,owner_name,title,category,neighborhood,meeting_point,starts_at,capacity,description,pinta_participants(user_id,display_name,seat)';
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let db, user = null, plans = [], activity = 'Todos', onlyMine = false, selectedId = null;
+let authMode = 'login', afterAuth = null, requestNumber = 0, hasMore = false, toastTimer;
+let actionBusy = false, initialReady = false;
+let initializing = false, sharedPlanOpened = false, detailRequest = 0;
+const PAGE_SIZE = 40;
+// Bound reads only. A timed-out write could already have been saved by the server.
+async function boundedRead(request, milliseconds = 15000) {
+  let timer;
+  try {
+    return await Promise.race([request, new Promise((_, reject) => {
+      timer = setTimeout(() => reject(Error('La conexión está tardando demasiado. Tocá Actualizar para volver a intentar.')), milliseconds);
+    })]);
+  } finally { clearTimeout(timer); }
+}
+function sharedPlanId() {
+  const id = new URL(window.location.href).searchParams.get('plan');
+  return id && /^[a-zA-Z0-9_-]{1,80}$/.test(id) ? id : null;
+}
+function planLink(id) {
+  const url = new URL(SITE_URL);
+  url.searchParams.set('plan', id);
+  return url.href;
+}
+function participants(p) { return p.pinta_participants || []; }
+function owns(p) { return Boolean(user && p.owner_id === user.id); }
+function attends(p) { return Boolean(user && (owns(p) || participants(p).some(m => m.user_id === user.id))); }
+function nextSeat(p) {
+  const used = new Set(participants(p).map(m => m.seat));
+  for (let seat = 2; seat <= p.capacity; seat++) if (!used.has(seat)) return seat;
+  return null;
+}
+function nameOfUser() { return String(user?.user_metadata?.display_name || 'Participante').trim().slice(0,40) || 'Participante'; }
+function dateLabel(value) { return new Date(value).toLocaleString('es-UY', {timeZone:'America/Montevideo',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }
+function localInputToISO(value) {
+  // Este primer lanzamiento opera en Montevideo, UTC-03:00.
+  const d = new Date(value + ':00-03:00');
+  if (!Number.isFinite(d.getTime())) throw Error('Elegí un día y una hora válidos.');
+  return d.toISOString();
+}
+function explain(error) {
+  const code = error?.code || '', message = String(error?.message || error || '');
+  if (code === 'invalid_credentials') return 'El correo o la contraseña no coinciden.';
+  if (code === 'email_not_confirmed') return 'Confirmá tu correo con el enlace que recibiste antes de entrar.';
+  if (/over_.*rate_limit/.test(code) || /rate limit/i.test(message)) return 'Se hicieron varios intentos. Esperá unos minutos y probá otra vez.';
+  if (code === 'email_address_not_authorized') return 'El envío de correos todavía necesita configuración. Avisale a quien administra Pinta.';
+  if (code === 'weak_password') return 'Usá una contraseña más segura, de al menos 10 caracteres.';
+  if (code === 'signup_disabled') return 'El registro de cuentas todavía no está habilitado.';
+  if (code === 'user_already_exists') return 'Probá entrar con tu correo o recuperar la contraseña.';
+  if (['42P01','42703','PGRST200','PGRST204','PGRST205'].includes(code)) return 'Todavía falta completar la configuración de los planes. Avisale a quien administra Pinta.';
+  if (code === '42501') return 'No se pudo guardar: revisá tu sesión y que el plan siga disponible.';
+  if (['23503','PGRST116'].includes(code)) return 'Este plan ya no está disponible. Actualizá la lista.';
+  if (code === '23505') return 'Ese lugar acaba de ocuparse o ya estás en el plan. Actualizá e intentá de nuevo.';
+  if (/fetch|network|offline/i.test(message)) return 'No pudimos conectarnos. Revisá tu conexión e intentá de nuevo.';
+  return message || 'No pudimos completar la acción. Intentá de nuevo.';
+}
+function notice(text) { $('toast').textContent = text; clearTimeout(toastTimer); toastTimer = setTimeout(() => $('toast').textContent = '', 5000); }
+function openDialog(id) { if (!$(id).open) $(id).showModal(); }
+function authUI() {
+  $('account').textContent = user ? 'Mi cuenta' : 'Entrar';
+  $('account-name').textContent = user ? nameOfUser() : '';
+  $('account-email').textContent = user?.email || '';
+}
+function render() {
+  document.querySelectorAll('#filters button').forEach(b => b.setAttribute('aria-pressed', b.textContent === activity));
+  $('explore').setAttribute('aria-pressed', !onlyMine);
+  $('mine').setAttribute('aria-pressed', onlyMine);
+  $('count').textContent = `${plans.length}${hasMore ? '+' : ''} ${onlyMine ? 'de tus planes' : 'planes para descubrir'}`;
+  $('more').hidden = !hasMore;
+  $('plans').innerHTML = plans.length ? plans.map(p => `<article class="card"><span class="category">${esc(p.category)}</span><h2>${esc(p.title)}</h2><p class="meta">${esc(dateLabel(p.starts_at))}</p><p class="meta">${esc(p.neighborhood)} · Montevideo</p><div class="card-footer"><span class="spots">${owns(p) ? 'Organizado por vos' : attends(p) ? 'Ya estás en el plan' : Math.max(0,p.capacity-1-participants(p).length) + ' cupos libres'}</span><button data-plan="${esc(p.id)}" aria-label="Ver plan: ${esc(p.title)}">Ver plan ↗</button></div></article>`).join('') : `<div class="empty"><h2>${onlyMine ? 'Todavía no tenés planes próximos' : 'El próximo plan puede ser tuyo'}</h2><p class="muted">${onlyMine ? 'Explorá las actividades o armá una con tu grupo.' : 'Creá uno o probá otro barrio o actividad.'}</p><button class="primary" data-create>+ Crear un plan</button></div>`;
+}
+async function myPlanIds() {
+  const ids = [];
+  for (let start = 0; ; start += 500) {
+    const {data,error} = await boundedRead(db.from('pinta_participants').select('plan_id').eq('user_id',user.id).order('plan_id').range(start,start+499));
+    if (error) throw error;
+    ids.push(...data.map(row=>row.plan_id));
+    if (data.length < 500) return ids;
+  }
+}
+async function loadPlans(append = false) {
+  if (!db || !initialReady) return;
+  const ticket = ++requestNumber;
+  $('load-error').textContent = '';
+  $('plans').setAttribute('aria-busy', 'true');
+  $('reload').disabled = true; $('more').disabled = true;
+  if (!append) { plans = []; $('plans').innerHTML = '<p class="muted">Cargando planes…</p>'; $('more').hidden=true; $('count').textContent=''; }
+  try {
+    if (onlyMine && !user) { render(); return; }
+    let query = db.from('pinta_plans').select(FIELDS).gt('starts_at',new Date().toISOString()).order('starts_at').order('id');
+    if (activity !== 'Todos') query=query.eq('category',activity);
+    if ($('zone').value) query=query.eq('neighborhood',$('zone').value);
+    if (onlyMine) {
+      const ids = await myPlanIds();
+      if(ticket!==requestNumber)return;
+      query = ids.length ? query.or(`owner_id.eq.${user.id},id.in.(${ids.join(',')})`) : query.eq('owner_id',user.id);
+    }
+    const start = append ? plans.length : 0;
+    const {data,error}=await boundedRead(query.range(start,start+PAGE_SIZE-1));
+    if(error)throw error;
+    if(ticket!==requestNumber)return;
+    hasMore=data.length===PAGE_SIZE;
+    plans = append ? [...plans,...data] : data;
+    render();
+  } catch(error) {
+    if(ticket!==requestNumber)return;
+    $('load-error').textContent=explain(error);
+    if(!append){$('plans').innerHTML='';$('count').textContent='No se pudieron cargar los planes';}
+  } finally { if(ticket===requestNumber){$('reload').disabled=false;$('more').disabled=false;$('plans').setAttribute('aria-busy','false');} }
+}
+async function readPlan(id) {
+  const {data,error}=await boundedRead(db.from('pinta_plans').select(FIELDS).eq('id',id).single());
+  if(error)throw error;
+  return data;
+}
+function detailHTML(p) {
+  $('detail-title').textContent=p.title;
+  const people=[`${p.owner_name}${owns(p)?' (vos)':''} · organiza`,...participants(p).map(m=>`${m.display_name}${user?.id===m.user_id?' (vos)':''}`)];
+  $('detail-body').innerHTML=`<p class="category">${esc(p.category)} · ${esc(p.neighborhood)}</p><p><strong>${esc(dateLabel(p.starts_at))}</strong></p><p class="muted">${esc(p.meeting_point)}</p><p class="description">${esc(p.description)}</p><h3>Quiénes se suman · ${people.length}/${p.capacity}</h3><div class="people">${people.map(esc).join('<br>')}</div>`;
+  const past = new Date(p.starts_at) <= new Date();
+  $('join').textContent=owns(p)?'Este plan lo organizás vos':attends(p)?'Salir del plan':past?'El plan ya comenzó':nextSeat(p)===null?'Plan completo':user?'Sumarme al plan':'Entrar para sumarme';
+  $('join').disabled=actionBusy||owns(p)||(!attends(p)&&(past||nextSeat(p)===null));
+  $('cancel-plan').hidden=!owns(p);
+  $('share-plan').hidden=false;
+  $('share-link').value=planLink(p.id);
+}
+async function showPlan(id) {
+  const ticket = ++detailRequest;
+  selectedId=id; $('detail-error').textContent=''; $('detail-title').textContent='Cargando plan…';
+  $('share-plan').hidden=true;$('share-fallback').hidden=true;
+  $('detail-body').textContent='';$('join').disabled=true;$('cancel-plan').hidden=true;openDialog('detail');
+  try {const p=await readPlan(id);if(selectedId===id&&ticket===detailRequest)detailHTML(p);} catch(error){if(selectedId===id&&ticket===detailRequest){$('detail-title').textContent='No se pudo abrir el plan';$('detail-error').textContent=explain(error);}}
+}
+async function sharePlan() {
+  const id=selectedId, url=$('share-link').value, title=$('detail-title').textContent;
+  if(!id||$('share-plan').hidden)return;
+  try {
+    if(navigator.share) {
+      await navigator.share({title, text:'¿Te sumás a este plan en Pinta?', url});
+      return;
+    }
+    if(navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(url);
+      notice('Enlace copiado. Ya podés enviarlo.');
+      return;
+    }
+  } catch(error) { if(error.name==='AbortError')return; }
+  if(selectedId!==id)return;
+  $('share-fallback').hidden=false;$('share-link').focus();$('share-link').select();
+}
+function openAuth(mode='login',next=null) {
+  authMode=mode;afterAuth=next;
+  for(const id of ['detail','create','profile']) if($(id).open)$(id).close();
+  $('auth-form').reset(); $('auth-message').textContent='';
+  const titles={login:'Entrá a Pinta',signup:'Creá tu cuenta',reset:'Recuperá tu contraseña',update:'Elegí una contraseña nueva'};
+  $('auth-title').textContent=titles[mode];
+  $('name-field').hidden=mode!=='signup';$('auth-name').required=mode==='signup';
+  $('email-field').hidden=mode==='update';$('auth-email').required=mode!=='update';
+  $('password-field').hidden=mode==='reset';$('auth-password').required=mode!=='reset';
+  $('auth-password').minLength=mode==='login'?1:10;
+  $('auth-password').autocomplete=mode==='login'?'current-password':'new-password';
+  $('auth-tabs').hidden=mode==='update';$('forgot').hidden=mode!=='login';
+  $('privacy-hint').hidden=mode!=='signup';
+  $('auth-submit').textContent={login:'Entrar',signup:'Crear cuenta',reset:'Enviar enlace',update:'Guardar contraseña'}[mode];
+  openDialog('auth');
+}
+function createPlanDialog() {
+  if(!initialReady||!db){notice('Esperá a que termine de cargar la conexión.');return;}
+  if(!user){openAuth('login','create');return;}
+  $('create-error').textContent='';$('host-name').value=nameOfUser();openDialog('create');
+}
+async function changeMembership() {
+  if(actionBusy||!selectedId)return;
+  if(!user){openAuth('login',selectedId);return;}
+  actionBusy=true;$('join').disabled=true;$('detail-error').textContent='';
+  const id=selectedId;
+  try {
+    let p=await readPlan(id);
+    if(owns(p))return;
+    if(attends(p)) {
+      const {error}=await db.from('pinta_participants').delete().eq('plan_id',id).eq('user_id',user.id);
+      if(error)throw error;
+      notice('Saliste del plan.');
+    } else {
+      let success=false;
+      for(let attempt=0;attempt<30;attempt++) {
+        if(new Date(p.starts_at)<=new Date())throw Error('Este plan ya comenzó.');
+        if(attends(p)){success=true;break;}
+        const seat=nextSeat(p);
+        if(seat===null)throw Error('El plan acaba de completarse.');
+        const {error}=await db.from('pinta_participants').insert({plan_id:id,user_id:user.id,display_name:nameOfUser(),seat});
+        if(!error){success=true;break;}
+        if(error.code!=='23505')throw error;
+        p=await readPlan(id);
+      }
+      if(!success)throw Error('Los cupos cambiaron. Volvé a intentarlo.');
+      notice('¡Ya estás en el plan!');
+    }
+    await loadPlans();
+  } catch(error) { $('detail-error').textContent=explain(error); }
+  finally {
+    actionBusy=false;
+    try{const p=await readPlan(id);if(selectedId===id)detailHTML(p);}catch(error){$('detail-error').textContent=explain(error);}
+  }
+}
+document.addEventListener('click',event=>{
+  const b=event.target.closest('button');if(!b)return;
+  if(b.hasAttribute('data-create'))createPlanDialog();
+  if(b.hasAttribute('data-close'))b.closest('dialog').close();
+  if(b.dataset.plan)showPlan(b.dataset.plan);
+});
+['Todos','Deporte','Comida','Juegos','Paseos'].forEach(c=>{const b=document.createElement('button');b.className='chip';b.textContent=c;b.onclick=()=>{activity=c;loadPlans()};$('filters').append(b)});
+$('zone').onchange=()=>loadPlans();$('reload').onclick=()=>initialReady?loadPlans():init();$('more').onclick=()=>loadPlans(true);
+$('explore').onclick=()=>{onlyMine=false;loadPlans()};
+$('mine').onclick=()=>{if(!user){openAuth('login','mine');return;}onlyMine=true;activity='Todos';$('zone').value='';loadPlans()};
+$('account').onclick=()=>{if(!db||!initialReady){notice('La conexión todavía no está lista.');return;}user?openDialog('profile'):openAuth()};
+$('login-tab').onclick=()=>openAuth('login',afterAuth);$('signup-tab').onclick=()=>openAuth('signup',afterAuth);$('forgot').onclick=()=>openAuth('reset',afterAuth);
+$('join').onclick=changeMembership;
+$('share-plan').onclick=sharePlan;
+$('auth-form').onsubmit=async event=>{
+  event.preventDefault();const button=$('auth-submit');if(button.disabled)return;
+  button.disabled=true;$('auth-message').textContent='';
+  try {
+    const email=$('auth-email').value.trim(),password=$('auth-password').value;
+    if(authMode==='reset') {
+      const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:SITE_URL});if(error)throw error;
+      $('auth-message').textContent='Si el correo puede recibir la recuperación, te llegará un enlace. Revisá también spam.';return;
+    }
+    if(authMode==='update') {
+      const {error}=await db.auth.updateUser({password});if(error)throw error;
+      $('auth').close();notice('Contraseña actualizada.');return;
+    }
+    const display_name=$('auth-name').value.trim();
+    if(authMode==='signup'&&!display_name)throw Error('Escribí el nombre con el que querés aparecer.');
+    const result=authMode==='signup'
+      ?await db.auth.signUp({email,password,options:{data:{display_name},emailRedirectTo:SITE_URL}})
+      :await db.auth.signInWithPassword({email,password});
+    if(result.error)throw result.error;
+    $('auth-password').value='';
+    if(!result.data.session){$('auth-message').textContent='Revisá tu correo para confirmar la cuenta. Si ya tenés una, entrá o recuperá la contraseña.';return;}
+    user=result.data.user;authUI();const next=afterAuth;afterAuth=null;$('auth').close();notice('Ya ingresaste a Pinta.');
+    if(next==='create')createPlanDialog();else if(next==='mine'){$('mine').click();}else if(next)await showPlan(next);
+    await loadPlans();
+  }catch(error){$('auth-message').textContent=explain(error);}
+  finally{button.disabled=false;}
+};
+$('signout').onclick=async()=>{
+  $('signout').disabled=true;$('profile-error').textContent='';
+  try{const {error}=await db.auth.signOut({scope:'local'});if(error)throw error;user=null;onlyMine=false;$('profile').close();authUI();await loadPlans();notice('Sesión cerrada en este dispositivo.');}
+  catch(error){$('profile-error').textContent=explain(error);}finally{$('signout').disabled=false;}
+};
+$('form').onsubmit=async event=>{
+  event.preventDefault();const button=$('create-submit');if(button.disabled)return;
+  if(!user){openAuth('login','create');return;}
+  button.disabled=true;$('create-error').textContent='';
+  try{
+    const starts_at=localInputToISO($('date').value);if(new Date(starts_at)<=new Date())throw Error('Elegí una fecha futura.');
+    const p={owner_id:user.id,owner_name:$('host-name').value.trim(),title:$('title').value.trim(),category:$('category').value,neighborhood:$('neighborhood').value,meeting_point:$('place').value.trim(),starts_at,capacity:Number($('capacity').value),description:$('description').value.trim()};
+    if(!p.owner_name||!p.title||!p.meeting_point||!p.description)throw Error('Completá el nombre, título, lugar y descripción.');
+    const {data,error}=await db.from('pinta_plans').insert(p).select('id').single();if(error)throw error;
+    $('create').close();event.target.reset();onlyMine=true;activity='Todos';$('zone').value='';
+    notice('Tu plan quedó guardado.');await loadPlans();await showPlan(data.id);
+  }catch(error){$('create-error').textContent=explain(error);}finally{button.disabled=false;}
+};
+$('cancel-plan').onclick=()=>{$('cancel-title').textContent=$('detail-title').textContent;$('cancel-error').textContent='';openDialog('confirm-cancel')};
+$('confirm-delete').onclick=async()=>{
+  const button=$('confirm-delete');button.disabled=true;$('cancel-error').textContent='';
+  try{const {data,error}=await db.from('pinta_plans').delete().eq('id',selectedId).eq('owner_id',user.id).select('id');if(error)throw error;if(!data.length)throw Error('El plan ya no existe o tu sesión cambió.');$('confirm-cancel').close();$('detail').close();selectedId=null;notice('Plan cancelado.');await loadPlans();}
+  catch(error){$('cancel-error').textContent=explain(error);}finally{button.disabled=false;}
+};
+async function init() {
+  if(initializing)return;
+  initializing=true;$('reload').disabled=true;$('load-error').textContent='';
+  $('count').textContent='Conectando…';
+  try {
+    if(!window.supabase) {
+      $('reload').textContent='Recargar página';
+      $('reload').onclick=()=>window.location.reload();
+      throw Error('No se pudo cargar la conexión. Revisá internet y tocá Recargar página.');
+    }
+    if(!db) {
+      db=window.supabase.createClient(PROJECT_URL,PUBLIC_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+      db.auth.onAuthStateChange((event,session)=>{
+        const before=user?.id;user=session?.user||null;authUI();
+        if(event==='PASSWORD_RECOVERY')openAuth('update');
+        if(event==='SIGNED_OUT'){onlyMine=false;for(const id of ['detail','create','profile','confirm-cancel'])if($(id).open)$(id).close();}
+        if(initialReady&&before!==user?.id)setTimeout(()=>loadPlans(),0);
+      });
+    }
+    const {data,error}=await boundedRead(db.auth.getSession());
+    if(error)throw error;
+    user=data.session?.user||null;initialReady=true;authUI();
+    await loadPlans();
+    const id=sharedPlanId();
+    if(id&&!sharedPlanOpened&&!$('auth').open){sharedPlanOpened=true;await showPlan(id);}
+  } catch(error) {
+    $('load-error').textContent=explain(error);$('plans').textContent='';
+    $('count').textContent='No se pudo conectar';
+  } finally {initializing=false;$('reload').disabled=false;}
+}
+window.addEventListener('online',()=>initialReady?loadPlans():init());
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&initialReady&&!document.querySelector('dialog[open]'))loadPlans()});
+init();
+
+</script></body></html>
