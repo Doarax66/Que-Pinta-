@@ -13,56 +13,73 @@ jobs:
     defaults:
       run:
         working-directory: apk-source
-
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: qp_fixture
+          POSTGRES_PASSWORD: local_fixture_only
+        options: >-
+          --health-cmd "pg_isready -U postgres -d qp_fixture"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
     steps:
-      - uses: actions/checkout@v4
-
+      - uses: actions/checkout@v7
       - name: Extraer proyecto
         working-directory: .
         run: unzip -q Que-Pinta-Actualizado.zip -d apk-source
-
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
-
-      - uses: actions/setup-java@v4
+          package-manager-cache: false
+      - name: Comprobar el código
+        run: |
+          node scripts/checks.cjs
+          node scripts/flow-checks.cjs
+      - name: Probar la actualización en una base vacía de prueba
+        env:
+          PG_TEST_CONTAINER: ${{ job.services.postgres.id }}
+        run: |
+          docker exec -i "$PG_TEST_CONTAINER" psql -U postgres -d qp_fixture -v ON_ERROR_STOP=1 < scripts/database/fixture.sql
+          docker exec -i "$PG_TEST_CONTAINER" psql -U postgres -d qp_fixture -v ON_ERROR_STOP=1 < supabase/ACTIVAR-FUNCIONES.sql
+          docker exec -i "$PG_TEST_CONTAINER" psql -U postgres -d qp_fixture -v ON_ERROR_STOP=1 < supabase/ACTIVAR-FUNCIONES.sql
+          docker exec -i "$PG_TEST_CONTAINER" psql -U postgres -d qp_fixture -v ON_ERROR_STOP=1 < scripts/database/checks.sql
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '21'
-
       - uses: android-actions/setup-android@v3
-
       - name: Instalar Android SDK
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
-
       - name: Instalar dependencias
-        run: npm --prefix mobile install --no-fund --no-audit
-
-      - name: Comprobar la web
-        run: node scripts/checks.cjs
-
+        run: |
+          if [ -f mobile/package-lock.json ]; then
+            npm --prefix mobile ci --no-fund --no-audit
+          else
+            npm --prefix mobile install --no-fund --no-audit
+          fi
       - name: Preparar la app
         run: node scripts/prepare-android.mjs
-
-      - name: Crear proyecto Android
+      - name: Crear proyecto Android e instalar el icono
         working-directory: apk-source/mobile
         run: |
           npx cap add android
           npx cap sync android
-
       - name: Compilar APK
         working-directory: apk-source/mobile/android
         run: bash gradlew assembleDebug --no-daemon
-
       - name: Guardar APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Que-Pinta-APK-de-prueba
           path: apk-source/mobile/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
-
+          retention-days: 14
       - name: Guardar versiones de dependencias
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Que-Pinta-package-lock
           path: apk-source/mobile/package-lock.json
+          if-no-files-found: error
+          
