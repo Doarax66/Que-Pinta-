@@ -35,6 +35,18 @@ dialog{border:1px solid #e5d6f4;background:#fdfbff;box-shadow:0 26px 90px #29104
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.celebration{display:none}}
 .plan-card.reveal-pending{animation:none;opacity:0;transform:translateY(16px)}.plan-card.reveal-pending:focus-within{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.plan-card.reveal-pending{opacity:1;transform:none}}
+
+/* v4: less reading, more space for plans and the selected place. */
+.discovery-controls{margin:24px 0}.discovery-controls .quick-scroll{gap:8px}.discovery-controls .segmented{margin-top:20px}
+#page-intro,#eyebrow,.saved-shortcut,#inspiration{display:none!important}.page-heading{margin-bottom:20px}.page-heading h1{font-size:clamp(32px,6vw,52px)}
+.plan-card .card-cover{height:112px}.plan-card .symbol-cover{min-height:112px;height:112px}.plan-card .cover-caption,.plan-card .cover-orbit{display:none}.plan-card .cover-symbol{width:64px;height:64px;opacity:.5}.plan-card .card-content{padding:20px}.plan-card .card-title{font-size:23px}.plan-card .card-date{margin-bottom:8px}.plan-card .card-footer{margin-top:16px;padding-top:16px}
+#filter-sheet .search-bar{flex-wrap:wrap;box-shadow:none;padding:12px;margin:12px 0}#filter-sheet .search-zone{width:100%;border:0;padding:8px 0}#filter-sheet .category-tabs{flex-wrap:wrap;overflow:visible;gap:8px;margin:20px 0}#filter-sheet .category-tab{padding:12px;font-size:15px}#filter-sheet .quick-filters{flex-wrap:wrap;border:0;margin:16px 0;padding:0;gap:8px}
+#create details{border:1px solid #ded4f2;border-radius:16px;margin:18px 0;padding:14px;background:#faf7ff}#create summary{cursor:pointer;font-weight:600;color:#5b2ca0;line-height:1.5}#create input[type=checkbox]{width:20px;height:20px}#create .map-picker{margin-top:12px}#create .map-heading{flex-wrap:wrap}#online-fields{padding:12px 16px;background:#eee6ff;border-radius:18px;margin-top:16px}
+.map-box{height:330px!important;border-radius:22px;overflow:hidden;border:1px solid #ded3ef;background:#efe9f7}.map-box .leaflet-tile-pane{filter:saturate(.35) brightness(1.06)}.map-box .leaflet-control-attribution{font-size:10px;background:rgba(255,255,255,.92)}.map-box .leaflet-control-zoom{border:0!important;box-shadow:0 4px 20px #3a185026}.map-box .leaflet-control-zoom a{color:#6734ba;border-color:#ece4f7}.meeting-marker span{box-shadow:0 8px 20px #50279b66;border:3px solid white!important;background:#7435e9!important}.map-search{padding:6px;background:white;border:1px solid #e2d8ef;border-radius:18px}.map-results button{padding:14px!important;border-radius:12px;margin:5px 0;text-align:left}.map-tools{gap:12px;flex-wrap:wrap}.map-expanded{position:fixed;inset:0;z-index:1200;background:#faf7ff;padding:20px;overflow:auto;margin:0!important}.map-expanded .map-box{height:55dvh!important}.map-expanded .coordinate-entry{display:none}.map-expanded .map-heading{position:sticky;top:-20px;background:#faf7ff;padding:12px 0;z-index:1300}#confirm-place{margin-top:12px}
+#plan-experience{padding:18px;background:#f0e7ff;border-radius:20px;margin:20px 0}.experience-rating{font-size:24px;font-weight:700}#finish-plan{margin:16px 0}.friend-card{padding:16px;border:1px solid #e3d9f0;border-radius:18px;margin:12px 0}.friend-card .person-row{width:100%;margin-bottom:10px}#friend-action{margin-top:20px}#show-friends{margin-top:20px}.map-heading h3{margin:0}.map-heading .tag{display:none}
+@media(max-width:600px){.plan-card .card-cover,.plan-card .symbol-cover{height:94px;min-height:94px}.plan-card .category-badge{font-size:13px}.plan-card .save-button{width:40px;height:40px}.plan-card .card-meta{flex-wrap:wrap;font-size:15px}.plan-card .card-content{padding:18px}.discovery-controls .chip{font-size:14px;padding:10px 13px}#create .form-row{gap:12px}#create{padding:22px}#create .map-expanded{padding:16px}}
+
+.hero-heading{min-height:unset;padding:26px;margin-bottom:20px}.hero-heading:after{font-size:90px;opacity:.12}.plan-card .card-cover{aspect-ratio:auto}.plan-card .symbol-cover .icon{width:48px;height:48px}#physical-fields label{line-height:1.4}.map-expanded{border-radius:0!important}.map-expanded .map-results{max-height:20dvh;overflow:auto}#mine-tabs button{flex:1}.field-help{display:block}
 </style>
 </head>
 <body>
@@ -60,10 +72,7 @@ dialog{border:1px solid #e5d6f4;background:#fdfbff;box-shadow:0 26px 90px #29104
   <main id="main" tabindex="-1">
     <section id="discover-view">
       <button class="mobile-location" data-location><span data-icon="pin"></span><span data-location-label>Elige tu ciudad</span><span aria-hidden="true">⌄</span></button><div class="page-heading hero-heading"><div><p class="eyebrow" id="eyebrow"><span class="mini-spark">✳</span> SAL DE LA RUTINA</p><h1 id="page-title">¿Qué pinta <span>hoy?</span></h1><p class="intro" id="page-intro">Haz espacio para algo nuevo. Encuentra tu próximo plan.</p></div><button class="text-button saved-shortcut" data-view="saved"><span data-icon="bookmark"></span>Mis guardados</button></div>
-      <form class="search-bar" id="search-form" role="search"><span data-icon="search"></span><input id="search" type="search" aria-label="Buscar planes" placeholder="Fútbol, un café, una vuelta en patines…" maxlength="80" autocomplete="off"><button class="icon-button" id="clear-search" type="button" aria-label="Borrar búsqueda" hidden><span data-icon="close"></span></button><div class="search-zone"><span data-icon="pin"></span><input id="zone" aria-label="Filtrar por zona o barrio" placeholder="Zona o barrio" maxlength="60"></div><button class="primary search-submit" type="submit" aria-label="Buscar"><span data-icon="arrow"></span></button></form>
-      <div class="category-tabs" id="filters" role="group" aria-label="Tipo de actividad"></div>
-      <div class="quick-filters"><div class="quick-scroll" role="group" aria-label="Filtros rápidos"><button class="chip active" data-date="all" aria-pressed="true">Cualquier día</button><button class="chip" data-date="today" aria-pressed="false">Hoy</button><button class="chip" data-date="tomorrow" aria-pressed="false">Mañana</button><button class="chip" data-date="weekend" aria-pressed="false">Este fin de semana</button><button class="chip" id="free-filter" aria-pressed="false" hidden>Gratis</button><button class="chip" id="seats-filter" aria-pressed="false"><span data-icon="users"></span>Con plazas</button></div><button class="text-button reset-filters" id="reset-filters" hidden>Limpiar filtros</button></div>
-      <div class="section-heading"><h2 id="list-title">Tu próximo buen plan</h2><div class="list-tools"><span id="count" role="status" aria-live="polite">Conectando…</span><button class="icon-button" id="reload" aria-label="Actualizar planes"><span data-icon="refresh"></span></button></div></div>
+<div class="discovery-controls"><div class="quick-scroll"><button class="chip" data-date="all" aria-pressed="true">Todos</button><button class="chip" data-date="today" aria-pressed="false">Hoy</button><button class="chip" data-date="weekend" aria-pressed="false">Este fin de semana</button><button class="chip" id="show-filters">Filtros</button></div><div class="segmented" id="mine-tabs" hidden><button data-history="active" aria-pressed="true">Activos</button><button data-history="past" aria-pressed="false">Planes anteriores</button></div></div>      <div class="section-heading"><h2 id="list-title">Tu próximo buen plan</h2><div class="list-tools"><span id="count" role="status" aria-live="polite">Conectando…</span><button class="icon-button" id="reload" aria-label="Actualizar planes"><span data-icon="refresh"></span></button></div></div>
       <p class="save-hint" id="save-hint" hidden>Los guardados se conservan en este dispositivo.</p>
       <div id="load-error" class="error-panel" role="alert" hidden></div>
       <section class="plans-grid" id="plans" aria-label="Planes disponibles" aria-busy="true"><div class="loading-card"><div class="skeleton-cover"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div><div class="loading-card"><div class="skeleton-cover"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></section>
@@ -76,20 +85,34 @@ dialog{border:1px solid #e5d6f4;background:#fdfbff;box-shadow:0 26px 90px #29104
 </div>
 <nav class="bottom-nav" aria-label="Navegación móvil"><button data-view="explore" aria-current="page"><span data-icon="compass"></span><span>Explorar</span></button><button data-view="mine"><span data-icon="calendar"></span><span>Mis planes</span></button><button class="nav-create" data-create aria-label="Crear un plan"><span data-icon="plus"></span></button><button data-view="chats"><span data-icon="chat"></span><span>Chats</span></button><button data-profile><span data-icon="user"></span><span>Perfil</span></button></nav>
 
-<dialog id="detail" class="detail-dialog" aria-labelledby="detail-title"><div id="detail-cover" class="detail-cover"></div><button class="icon-button floating-close" aria-label="Cerrar detalle" data-close><span data-icon="close"></span></button><div class="detail-content"><div id="detail-category" class="detail-category"></div><h2 id="detail-title">Cargando plan…</h2><div id="detail-body"></div><section id="detail-map-section" hidden><h3>El punto de encuentro</h3><div id="detail-map" class="map-box" aria-label="Mapa del encuentro"></div><p id="detail-map-status" class="field-help" role="status"></p></section><a id="directions" class="secondary wide" target="_blank" rel="noopener noreferrer">Cómo llegar <span data-icon="arrowUp"></span></a><p class="error" id="detail-error" role="alert"></p><div class="detail-actions"><button id="join" class="primary">Unirme al plan</button><button id="save-detail" class="secondary" aria-label="Guardar plan" aria-pressed="false"><span data-icon="bookmark"></span></button></div><button id="open-plan-chat" class="secondary wide" hidden><span data-icon="chat"></span>Abrir chat del grupo</button><div class="detail-secondary"><button id="share-plan" class="text-button" hidden><span data-icon="share"></span>Compartir</button><button id="cancel-plan" class="text-button danger-text" hidden>Cancelar plan</button></div><div id="share-fallback" hidden><label for="share-link">Copia el enlace</label><input id="share-link" type="url" readonly></div><p class="fine-print">La hora corresponde a la zona del encuentro.</p></div></dialog>
+<dialog id="filter-sheet" aria-labelledby="filter-title"><div class="dialog-top"><h2 id="filter-title">Encuentra tu plan</h2><button class="icon-button" data-close aria-label="Cerrar">×</button></div>      <form class="search-bar" id="search-form" role="search"><span data-icon="search"></span><input id="search" type="search" aria-label="Buscar planes" placeholder="Fútbol, un café, una vuelta en patines…" maxlength="80" autocomplete="off"><button class="icon-button" id="clear-search" type="button" aria-label="Borrar búsqueda" hidden><span data-icon="close"></span></button><div class="search-zone"><span data-icon="pin"></span><input id="zone" aria-label="Filtrar por zona o barrio" placeholder="Zona o barrio" maxlength="60"></div><button class="primary search-submit" type="submit" aria-label="Buscar"><span data-icon="arrow"></span></button></form>
+<label for="browse-mode">Modalidad</label><select id="browse-mode"><option value="all">Presenciales y online</option><option value="presential">Presenciales</option><option value="online">Online · cualquier país</option></select><div class="category-tabs" id="filters" role="group" aria-label="Actividad"></div><div class="quick-filters"><button class="chip" id="free-filter" aria-pressed="false">Gratis</button><button class="chip" id="seats-filter" aria-pressed="false">Con plazas</button><button class="text-button" id="reset-filters" hidden>Limpiar filtros</button></div><button class="primary wide" data-close>Ver resultados</button></dialog>
+<dialog id="detail" class="detail-dialog" aria-labelledby="detail-title"><div id="detail-cover" class="detail-cover"></div><button class="icon-button floating-close" aria-label="Cerrar detalle" data-close><span data-icon="close"></span></button><div class="detail-content"><div id="detail-category" class="detail-category"></div><h2 id="detail-title">Cargando plan…</h2><div id="detail-body"></div><section id="detail-map-section" hidden><h3>El punto de encuentro</h3><div id="detail-map" class="map-box" aria-label="Mapa del encuentro"></div><p id="detail-map-status" class="field-help" role="status"></p></section><a id="directions" class="secondary wide" target="_blank" rel="noopener noreferrer">Cómo llegar <span data-icon="arrowUp"></span></a><section id="plan-experience" hidden></section><button id="finish-plan" class="primary wide" hidden>Finalizar plan</button><p class="error" id="detail-error" role="alert"></p><div class="detail-actions"><button id="join" class="primary">Unirme al plan</button><button id="save-detail" class="secondary" aria-label="Guardar plan" aria-pressed="false"><span data-icon="bookmark"></span></button></div><button id="open-plan-chat" class="secondary wide" hidden><span data-icon="chat"></span>Abrir chat del grupo</button><div class="detail-secondary"><button id="share-plan" class="text-button" hidden><span data-icon="share"></span>Compartir</button><button id="cancel-plan" class="text-button danger-text" hidden>Cancelar plan</button></div><div id="share-fallback" hidden><label for="share-link">Copia el enlace</label><input id="share-link" type="url" readonly></div><p class="fine-print">Los planes online se muestran en tu horario local.</p></div></dialog>
 
-<dialog id="create" aria-labelledby="create-title"><div class="dialog-top"><div><p class="eyebrow">TU IDEA, TU GENTE</p><h2 id="create-title">Crea tu plan.</h2></div><button class="icon-button" aria-label="Cerrar" data-close><span data-icon="close"></span></button></div><form id="form"><div class="form-row"><div><label for="plan-country">País</label><select id="plan-country" required></select></div><div><label for="plan-city">Ciudad</label><input id="plan-city" maxlength="80" placeholder="Ciudad del encuentro" autocomplete="address-level2" required></div></div><label for="plan-timezone">Zona horaria del encuentro</label><select id="plan-timezone" required></select><p class="field-help">Comprueba la zona si el país tiene más de una.</p><label for="title">¿Qué pinta hacer?</label><input id="title" maxlength="70" placeholder="Una vuelta en patines" required><div class="form-row"><div><label for="category">Actividad</label><select id="category"><option value="Deporte">Deportes</option><option value="Comida">Comer algo</option><option value="Juegos">Gaming y juegos</option><option value="Paseos">Al aire libre</option></select></div><div><label for="neighborhood">Barrio</label><input id="neighborhood" maxlength="60" placeholder="Barrio o zona" required></div></div><label for="place">Punto de encuentro público</label><input id="place" maxlength="150" placeholder="Entrada del parque, esquina de…" required><section class="map-picker"><div class="map-heading"><h3>Marca dónde nos vemos</h3><span class="tag">Opcional</span></div><p class="field-help">Busca un lugar público o toca el mapa. Puedes mover el pin.</p><div class="map-search"><input id="map-query" aria-label="Buscar un lugar en el mapa" placeholder="Parque, plaza o dirección" maxlength="140"><button id="map-search-button" class="secondary" type="button" aria-label="Buscar lugar"><span data-icon="search"></span></button></div><div id="map-results" class="map-results" aria-live="polite"></div><div id="create-map" class="map-box" aria-label="Toca para marcar el punto de encuentro"></div><div class="map-tools"><button id="locate" class="text-button" type="button"><span data-icon="pin"></span>Usar mi ubicación</button><button id="remove-pin" class="text-button" type="button">Quitar pin</button></div><p id="map-status" class="field-help" role="status">El punto que elijas será público.</p><details class="coordinate-entry"><summary>Introducir coordenadas</summary><div class="form-row"><div><label for="latitude">Latitud</label><input id="latitude" type="number" min="-85.05112878" max="85.05112878" step="any" placeholder="−34.90"></div><div><label for="longitude">Longitud</label><input id="longitude" type="number" min="-180" max="180" step="any" placeholder="−56.16"></div></div><button id="apply-coordinates" class="text-button" type="button">Usar estas coordenadas</button></details></section><div class="form-row"><div><label for="date">Día y hora del encuentro</label><input id="date" type="datetime-local" required></div><div><label for="capacity">Plazas, incluyéndote</label><input id="capacity" type="number" min="2" max="30" value="6" required></div></div><div id="cost-field" hidden><label for="cost">Costo estimado por persona</label><div class="form-row"><div><label class="sr-only" for="currency">Moneda</label><select id="currency" aria-label="Moneda"></select></div><div><input id="cost" type="number" min="0" max="100000" step="0.01" placeholder="0 si es gratis; vacío si no lo sabes"></div></div><p class="field-help">Es informativo. Que Pinta no cobra por el plan.</p></div><label for="description">Cuéntanos un poco más</label><textarea id="description" maxlength="400" rows="3" placeholder="Qué van a hacer, qué llevar, nivel y costo…" required></textarea><div class="field-counter"><span>Una invitación sencilla alcanza.</span><span id="description-count">0/400</span></div><label for="host-name">Tu nombre para este plan</label><input id="host-name" maxlength="40" required autocomplete="nickname"><p class="field-help">El plan y los nombres de quienes se suman son públicos.</p><p class="error" id="create-error" role="alert"></p><button id="create-submit" class="primary wide" type="submit">Publicar plan <span data-icon="arrow"></span></button></form></dialog>
-
+<dialog id="create" aria-labelledby="create-title"><div class="dialog-top"><div><p class="eyebrow">UNA IDEA ES SUFICIENTE</p><h2 id="create-title">Crea tu plan.</h2></div><button class="icon-button" data-close aria-label="Cerrar">×</button></div><form id="form">
+<label for="plan-mode">¿Cómo se van a reunir?</label><select id="plan-mode"><option value="presential">En persona</option><option value="online">Online</option></select>
+<label for="title">¿Qué quieres hacer?</label><input id="title" maxlength="70" required placeholder="Una partida de Minecraft, un café…">
+<label for="category">Actividad</label><select id="category"><option value="Deporte">Deportes</option><option value="Comida">Comer algo</option><option value="Juegos">Videojuegos y juegos</option><option value="Paseos">Paseos y otros</option></select>
+<div id="physical-fields"><details id="location-options"><summary>Lugar: <span id="create-location-label">Elige tu ciudad</span></summary><div class="form-row"><div><label for="plan-country">País</label><select id="plan-country" required></select></div><div><label for="plan-city">Ciudad</label><input id="plan-city" maxlength="80" required></div></div><label for="plan-timezone">Horario del lugar</label><select id="plan-timezone" required></select><label for="neighborhood">Barrio o zona · opcional</label><input id="neighborhood" maxlength="60"></details>
+<label for="place">¿Dónde se encuentran?</label><input id="place" maxlength="150" required placeholder="Nombre del lugar o dirección">
+<details id="map-disclosure"><summary>Elegir en el mapa</summary><section class="map-picker" id="map-picker"><div class="map-heading"><h3>Elige el lugar</h3><button id="expand-map" type="button" class="text-button">Ampliar</button><span class="tag">Opcional</span></div><p class="field-help">Busca un lugar público o toca el mapa. Puedes mover el pin.</p><div class="map-search"><input id="map-query" aria-label="Buscar un lugar en el mapa" placeholder="Parque, plaza o dirección" maxlength="140"><button id="map-search-button" class="secondary" type="button" aria-label="Buscar lugar"><span data-icon="search"></span></button></div><div id="map-results" class="map-results" aria-live="polite"></div><div id="create-map" class="map-box" aria-label="Toca para marcar el punto de encuentro"></div><div class="map-tools"><button id="locate" class="text-button" type="button"><span data-icon="pin"></span>Usar mi ubicación</button><button id="remove-pin" class="text-button" type="button">Quitar pin</button></div><p id="map-status" class="field-help" role="status">El punto que elijas será público.</p><details class="coordinate-entry"><summary>Introducir coordenadas</summary><div class="form-row"><div><label for="latitude">Latitud</label><input id="latitude" type="number" min="-85.05112878" max="85.05112878" step="any" placeholder="−34.90"></div><div><label for="longitude">Longitud</label><input id="longitude" type="number" min="-180" max="180" step="any" placeholder="−56.16"></div></div><button id="apply-coordinates" class="text-button" type="button">Usar estas coordenadas</button></details><button id="confirm-place" type="button" class="primary wide">Confirmar este lugar</button></section></details></div>
+<div id="online-fields" hidden><p class="field-help">Personas de cualquier país pueden unirse. Coordinen el acceso en el chat privado del grupo.</p><div id="gaming-fields"><label for="platform">Plataforma · opcional</label><select id="platform"><option value="">Por acordar</option><option>PC</option><option>PlayStation</option><option>Xbox</option><option>Nintendo Switch</option><option>Móvil</option><option>Multiplataforma</option></select><label for="server-region">Región del servidor · opcional</label><input id="server-region" maxlength="60" placeholder="Sudamérica, Europa…"></div></div>
+<div class="form-row"><div><label for="date">Día y hora de inicio</label><input id="date" type="datetime-local" required><small id="date-zone-hint" class="field-help"></small></div><div><label for="capacity">Personas, incluyéndote</label><input id="capacity" type="number" min="2" max="30" value="6" required></div></div>
+<div id="cost-field"><label class="checkbox-row"><input id="has-cost" type="checkbox">Tiene costo</label><div id="paid-fields" hidden><label for="cost">Costo por persona · <span id="currency-label"></span></label><input id="currency" type="hidden"><input id="cost" type="number" min="0.01" max="100000" step="0.01" placeholder="Importe"><p class="field-help">La moneda corresponde al país del plan.</p></div></div>
+<details><summary>Agregar una descripción · opcional</summary><label for="description">Algo que deban saber</label><textarea id="description" maxlength="400" rows="3" placeholder="Qué llevar, nivel de juego…"></textarea><span id="description-count">0/400</span></details>
+<input id="host-name" type="hidden"><p class="error" id="create-error" role="alert"></p><button id="create-submit" class="primary wide" type="submit">Publicar plan</button></form></dialog>
 <dialog id="auth" aria-labelledby="auth-title"><div class="dialog-top"><div><p class="eyebrow">HAY UN PLAN PARA TI</p><h2 id="auth-title">Entra a Que Pinta.</h2></div><button class="icon-button" aria-label="Cerrar" data-close><span data-icon="close"></span></button></div><p class="intro auth-intro">Únete, crea planes y conoce gente.</p><div id="auth-tabs" class="segmented"><button id="login-tab" type="button" aria-pressed="true">Entrar</button><button id="signup-tab" type="button" aria-pressed="false">Crear cuenta</button></div><form id="auth-form"><div id="name-field" hidden><label for="auth-name">¿Cómo quieres aparecer?</label><input id="auth-name" maxlength="40" autocomplete="nickname" placeholder="Tu nombre o apodo"></div><div id="email-field"><label for="auth-email">Correo electrónico</label><input id="auth-email" type="email" autocomplete="email" required placeholder="tu@ejemplo.com"></div><div id="password-field"><label for="auth-password">Contraseña</label><input id="auth-password" type="password" autocomplete="current-password" required></div><div id="birthdate-field" hidden><label for="auth-birthdate">Fecha de nacimiento</label><input id="auth-birthdate" type="date" min="1900-01-01" autocomplete="bday"><p class="field-help">Solo para mayores de 18 años. Tu fecha es privada. Es una declaración de edad, no una verificación de identidad.</p></div><p class="field-help" id="privacy-hint" hidden>Usa al menos 10 caracteres. Tu correo no se muestra en los planes.</p><p id="auth-message" class="auth-message" role="status"></p><button id="auth-submit" type="submit" class="primary wide">Entrar</button></form><button id="forgot" class="text-button wide">Olvidé mi contraseña</button></dialog>
 
-<dialog id="profile" class="profile-dialog" aria-labelledby="profile-title"><div class="profile-banner"><button class="icon-button floating-close" aria-label="Cerrar perfil" data-close><span data-icon="close"></span></button></div><div class="profile-content"><div id="profile-avatar" class="profile-avatar"></div><p class="eyebrow">TU ESPACIO</p><h2 id="profile-title">Mi perfil.</h2><p id="account-name"></p><p id="account-email" class="muted email"></p><form id="profile-form"><label for="profile-name">Tu nombre</label><input id="profile-name" maxlength="40" autocomplete="nickname" required><label for="profile-bio">Algo sobre ti</label><textarea id="profile-bio" maxlength="240" rows="3" placeholder="Me gusta patinar, descubrir lugares y conocer gente."></textarea><label for="profile-photo">Foto · enlace HTTPS (opcional)</label><input id="profile-photo" type="url" maxlength="500" placeholder="https://…"><p class="field-help" id="profile-scope">Tu perfil se guarda en tu cuenta.</p><fieldset class="social-fields"><legend>Tus redes sociales</legend><p class="field-help">Opcionales. Comparte solo los perfiles que quieras mostrar.</p><label for="profile-instagram">Instagram</label><input id="profile-instagram" maxlength="250" placeholder="@tuusuario o https://www.instagram.com/tuusuario" autocomplete="off"><label for="profile-facebook">Facebook</label><input id="profile-facebook" maxlength="250" placeholder="https://www.facebook.com/tuusuario" autocomplete="off"><label class="checkbox-row"><input id="show-socials" type="checkbox">Mostrar estos enlaces en mi perfil público</label></fieldset><fieldset class="interests"><legend>¿Qué te pinta?</legend><label><input type="checkbox" name="interest" value="Deporte">Deportes</label><label><input type="checkbox" name="interest" value="Comida">Comer algo</label><label><input type="checkbox" name="interest" value="Juegos">Gaming</label><label><input type="checkbox" name="interest" value="Paseos">Aire libre</label></fieldset><p class="error" id="profile-error" role="alert"></p><button id="profile-save" class="primary wide" type="submit">Guardar perfil</button></form><button id="signout" class="text-button wide danger-text">Cerrar sesión</button></div></dialog>
-<dialog id="person" aria-labelledby="person-title"><div class="dialog-top"><h2 id="person-title">Perfil</h2><button class="icon-button" data-close aria-label="Cerrar"><span data-icon="close"></span></button></div><div id="person-body"></div></dialog>
+<dialog id="profile" class="profile-dialog" aria-labelledby="profile-title"><div class="profile-banner"><button class="icon-button floating-close" aria-label="Cerrar perfil" data-close><span data-icon="close"></span></button></div><div class="profile-content"><div id="profile-avatar" class="profile-avatar"></div><p class="eyebrow">TU ESPACIO</p><h2 id="profile-title">Mi perfil.</h2><p id="account-name"></p><p id="account-email" class="muted email"></p><form id="profile-form"><label for="profile-name">Tu nombre</label><input id="profile-name" maxlength="40" autocomplete="nickname" required><label for="profile-bio">Algo sobre ti</label><textarea id="profile-bio" maxlength="240" rows="3" placeholder="Me gusta patinar, descubrir lugares y conocer gente."></textarea><label for="profile-photo">Foto · enlace HTTPS (opcional)</label><input id="profile-photo" type="url" maxlength="500" placeholder="https://…"><p class="field-help" id="profile-scope">Tu perfil se guarda en tu cuenta.</p><fieldset class="social-fields"><legend>Tus redes sociales</legend><p class="field-help">Opcionales. Comparte solo los perfiles que quieras mostrar.</p><label for="profile-instagram">Instagram</label><input id="profile-instagram" maxlength="250" placeholder="@tuusuario o https://www.instagram.com/tuusuario" autocomplete="off"><label for="profile-facebook">Facebook</label><input id="profile-facebook" maxlength="250" placeholder="https://www.facebook.com/tuusuario" autocomplete="off"><label class="checkbox-row"><input id="show-socials" type="checkbox">Mostrar estos enlaces en mi perfil público</label></fieldset><fieldset class="interests"><legend>¿Qué te pinta?</legend><label><input type="checkbox" name="interest" value="Deporte">Deportes</label><label><input type="checkbox" name="interest" value="Comida">Comer algo</label><label><input type="checkbox" name="interest" value="Juegos">Gaming</label><label><input type="checkbox" name="interest" value="Paseos">Aire libre</label></fieldset><p class="error" id="profile-error" role="alert"></p><button id="profile-save" class="primary wide" type="submit">Guardar perfil</button></form><button id="show-friends" class="secondary wide" type="button">Amigos y solicitudes</button><button id="signout" class="text-button wide danger-text">Cerrar sesión</button></div></dialog>
+<dialog id="person" aria-labelledby="person-title"><div class="dialog-top"><h2 id="person-title">Perfil</h2><button class="icon-button" data-close aria-label="Cerrar"><span data-icon="close"></span></button></div><div id="person-body"></div><div id="friend-action"></div></dialog>
 
 <dialog id="chat" class="chat-dialog" aria-labelledby="chat-title"><div class="dialog-top"><div><p class="eyebrow">CHAT DEL PLAN</p><h2 id="chat-title">Grupo</h2></div><button class="icon-button" aria-label="Cerrar chat" data-close><span data-icon="close"></span></button></div><p class="field-help">Solo pueden leer y escribir quienes participan en este plan.</p><div id="messages" class="messages" role="log" aria-label="Mensajes del grupo" aria-live="polite"></div><p class="error" id="chat-error" role="alert"></p><form id="chat-form" class="chat-compose"><label class="sr-only" for="message">Mensaje</label><textarea id="message" rows="1" maxlength="1000" placeholder="Escribe al grupo…" required></textarea><button class="primary" id="send-message" type="submit" aria-label="Enviar mensaje"><span data-icon="send"></span></button></form></dialog>
 <dialog id="confirm-cancel" aria-labelledby="cancel-heading"><div class="dialog-top"><h2 id="cancel-heading">¿Cancelar el plan?</h2><button class="icon-button" aria-label="Cerrar" data-close><span data-icon="close"></span></button></div><p id="cancel-title" class="confirm-title"></p><p>Se eliminarán el plan, sus inscripciones y su chat. Esta acción no se puede deshacer.</p><p class="error" id="cancel-error" role="alert"></p><div class="form-row"><button class="secondary" data-close>Volver</button><button id="confirm-delete" class="danger">Sí, cancelar</button></div></dialog>
 <dialog id="confirm-leave" aria-labelledby="leave-heading"><div class="dialog-top"><h2 id="leave-heading">¿Salir de este plan?</h2><button class="icon-button" aria-label="Cerrar" data-close><span data-icon="close"></span></button></div><p>Tu lugar quedará libre para otra persona y dejarás de acceder al chat.</p><div class="form-row"><button class="secondary" data-close>Me quedo</button><button id="confirm-leave-button" class="danger">Salir del plan</button></div></dialog>
 <dialog id="location" aria-labelledby="location-title"><div class="dialog-top"><div><p class="eyebrow">CERCA O LEJOS, HAY UN PLAN</p><h2 id="location-title">¿Dónde quieres explorar?</h2></div><button class="icon-button" data-close aria-label="Cerrar"><span data-icon="close"></span></button></div><form id="location-form"><label for="filter-country">País</label><select id="filter-country"></select><label for="filter-city">Ciudad</label><input id="filter-city" maxlength="80" placeholder="Todas las ciudades" autocomplete="address-level2"><p class="field-help">Deja la ciudad vacía para ver todo el país.</p><button class="primary wide" type="submit">Explorar planes <span data-icon="arrow"></span></button></form></dialog>
 <dialog id="age" aria-labelledby="age-title"><div class="dialog-top"><div><p class="eyebrow">UNA COMUNIDAD PARA ADULTOS</p><h2 id="age-title">Antes de participar</h2></div><button class="icon-button" data-close aria-label="Cerrar"><span data-icon="close"></span></button></div><p>Que Pinta es para mayores de 18 años. Indica tu fecha de nacimiento para crear planes, unirte y conversar.</p><form id="age-form"><label for="age-birthdate">Fecha de nacimiento</label><input id="age-birthdate" type="date" min="1900-01-01" autocomplete="bday" required><p class="field-help">La fecha es privada y se guarda una sola vez. Esta declaración no verifica tu identidad.</p><p id="age-error" class="error" role="alert"></p><button id="age-submit" class="primary wide" type="submit">Confirmar y continuar</button></form></dialog>
+<dialog id="finish-sheet" aria-labelledby="finish-heading"><div class="dialog-top"><h2 id="finish-heading">¿Ya terminó el plan?</h2><button class="icon-button" data-close aria-label="Cerrar">×</button></div><p>Pasará a Planes anteriores y podrán seguir en contacto.</p><form id="finish-form"><label for="plan-rating">¿Cómo estuvo? · opcional</label><select id="plan-rating"><option value="">Valorar después</option><option value="1">😕 Regular</option><option value="2">🙂 Bien</option><option value="3">🤩 Excelente</option></select><label for="rating-comment">Comentario sobre el plan · opcional</label><textarea id="rating-comment" maxlength="400" rows="3"></textarea><p class="field-help">Tu valoración será visible solo para el grupo.</p><p id="finish-error" class="error" role="alert"></p><button id="finish-submit" class="primary wide">Finalizar y guardar</button></form></dialog>
+<dialog id="friends-sheet" aria-labelledby="friends-title"><div class="dialog-top"><h2 id="friends-title">Amigos</h2><button class="icon-button" data-close aria-label="Cerrar">×</button></div><p class="field-help">Vuelve a encontrar a las personas con las que compartiste un plan.</p><div id="friends-list"></div></dialog>
 <div id="celebration" class="celebration" aria-hidden="true"></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
 <noscript><p class="error-panel">Activa JavaScript en tu navegador para usar Que Pinta.</p></noscript>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js" defer></script>
@@ -153,8 +176,8 @@ document.addEventListener("DOMContentLoaded",function(){
     return [now.toISOString(),null];
   }
   // Per-plan local calendar comparison also handles zones changing at midnight.
-  function matchesDate(plan, filter, now = new Date()) {
-    if(new Date(plan.starts_at)<=now)return false;
+  function matchesDate(plan, filter, now = new Date(), allowStarted = false) {
+    if(!allowStarted&&new Date(plan.starts_at)<=now)return false;
     const zone=plan.qp_timezone||ZONE,day=dateKey(plan.starts_at,zone),today=dateKey(now,zone);
     if(filter==='today')return day===today;
     if(filter==='tomorrow')return day===shiftDate(today,1);
@@ -221,8 +244,9 @@ window.PintaMaps = (() => {
   }
   function create(element, center, onPick, onError) {
     if(!window.L){onError?.('El mapa no se pudo cargar. Puedes introducir coordenadas o continuar con la dirección.');return null;}
-    const map=L.map(element,{scrollWheelZoom:false,worldCopyJump:true}).setView(center,13);
+    const map=L.map(element,{scrollWheelZoom:false,worldCopyJump:true,zoomControl:false}).setView(center,13);
     L.tileLayer(config.tiles,{minZoom:2,maxZoom:19,keepBuffer:1,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).on('tileerror',()=>onError?.('No se pudo cargar parte del mapa. Revisa la conexión.')).addTo(map);
+    L.control.zoom({position:'bottomright'}).addTo(map);
     let marker=null;
     const pin=L.divIcon({className:'meeting-marker',html:'<span></span>',iconSize:[32,42],iconAnchor:[16,40]});
     function select(lat,lng,notify=false){
@@ -234,7 +258,7 @@ window.PintaMaps = (() => {
     }
     if(onPick)map.on('click',e=>select(e.latlng.lat,e.latlng.lng,true));
     setTimeout(()=>map.invalidateSize(),120);
-    return {select,center:(lat,lng,zoom=15)=>map.setView([lat,lng],zoom,{animate:!matchMedia('(prefers-reduced-motion: reduce)').matches}),clear:()=>{if(marker)map.removeLayer(marker);marker=null;},remove:()=>map.remove()};
+    return {select,resize:()=>map.invalidateSize(),center:(lat,lng,zoom=15)=>map.setView([lat,lng],zoom,{animate:!matchMedia('(prefers-reduced-motion: reduce)').matches}),clear:()=>{if(marker)map.removeLayer(marker);marker=null;},remove:()=>map.remove()};
   }
   async function search(query,country,city,center) {
     const text=[query,city].filter(Boolean).join(', '),key=country+'|'+text;
@@ -267,6 +291,7 @@ const PUBLIC_KEY = 'sb_publishable_CPK0XrZ2o4ivRb1VpTh3hw_ADYw26EH';
 const SITE_URL = 'https://doarax66.github.io/Que-Pinta-/';
 const FIELDS = 'id,owner_id,owner_name,title,category,neighborhood,meeting_point,starts_at,capacity,description,pinta_participants(user_id,display_name,seat)';
 const V3_FIELDS = ',qp_country_code,qp_city,qp_timezone,qp_latitude,qp_longitude,qp_cost,qp_currency';
+const V4_FIELDS=',qp_mode,qp_platform,qp_server_region,qp_finished_at';
 const C = window.PintaCore;
 const $ = id => document.getElementById(id);
 const esc = C.escapeHTML;
@@ -299,13 +324,17 @@ function paintIcons(root=document) { root.querySelectorAll('[data-icon]').forEac
 let db, user=null, ready=false, initializing=false, view='explore', activity='Todos', dateFilter='all', onlyFree=false, onlySeats=false;
 let plans=[], hasMore=false, offset=0, selectedId=null, selectedPlan=null, requestNumber=0, detailTicket=0, actionBusy=false, toastTimer;
 let authMode='login', afterAuth=null, pendingIdea=null, openedShared=false, searchTimer, chatId=null, chatTimer, chatTicket=0, chatReadBusy=false, chatListTicket=0, pendingMessage=null;
-let capabilities={profiles:false,messages:false,details:false,v3:false,age:false};
+let capabilities={profiles:false,messages:false,details:false,v3:false,v4:false,age:false};
 let cardObserver=null,adultUserId=null,afterAge=null,createMap=null,detailMap=null,meetingPin=null,mapSearchTicket=0;
+let historyMode='active',browseMode='all',friendPerson=null,friendTicket=0,finishId=null;
+const currencyByCountry={"AD": "EUR", "AE": "AED", "AF": "AFN", "AG": "XCD", "AI": "XCD", "AL": "ALL", "AM": "AMD", "AO": "AOA", "AR": "ARS", "AS": "USD", "AT": "EUR", "AU": "AUD", "AW": "AWG", "AX": "EUR", "AZ": "AZN", "BA": "BAM", "BB": "BBD", "BD": "BDT", "BE": "EUR", "BF": "XOF", "BG": "EUR", "BH": "BHD", "BI": "BIF", "BJ": "XOF", "BL": "EUR", "BM": "BMD", "BN": "BND", "BO": "BOB", "BQ": "USD", "BR": "BRL", "BS": "BSD", "BT": "BTN", "BW": "BWP", "BY": "BYN", "BZ": "BZD", "CA": "CAD", "CC": "AUD", "CD": "CDF", "CF": "XAF", "CG": "XAF", "CH": "CHF", "CI": "XOF", "CK": "NZD", "CL": "CLP", "CM": "XAF", "CN": "CNY", "CO": "COP", "CR": "CRC", "CU": "CUP", "CV": "CVE", "CW": "XCG", "CX": "AUD", "CY": "EUR", "CZ": "CZK", "DE": "EUR", "DJ": "DJF", "DK": "DKK", "DM": "XCD", "DO": "DOP", "DZ": "DZD", "EC": "USD", "EE": "EUR", "EG": "EGP", "EH": "MAD", "ER": "ERN", "ES": "EUR", "ET": "ETB", "FI": "EUR", "FJ": "FJD", "FK": "FKP", "FM": "USD", "FO": "DKK", "FR": "EUR", "GA": "XAF", "GB": "GBP", "GD": "XCD", "GE": "GEL", "GF": "EUR", "GG": "GBP", "GH": "GHS", "GI": "GIP", "GL": "DKK", "GM": "GMD", "GN": "GNF", "GP": "EUR", "GQ": "XAF", "GR": "EUR", "GS": "GBP", "GT": "GTQ", "GU": "USD", "GW": "XOF", "GY": "GYD", "HK": "HKD", "HN": "HNL", "HR": "EUR", "HT": "HTG", "HU": "HUF", "ID": "IDR", "IE": "EUR", "IL": "ILS", "IM": "GBP", "IN": "INR", "IO": "USD", "IQ": "IQD", "IR": "IRR", "IS": "ISK", "IT": "EUR", "JE": "GBP", "JM": "JMD", "JO": "JOD", "JP": "JPY", "KE": "KES", "KG": "KGS", "KH": "KHR", "KI": "AUD", "KM": "KMF", "KN": "XCD", "KP": "KPW", "KR": "KRW", "KW": "KWD", "KY": "KYD", "KZ": "KZT", "LA": "LAK", "LB": "LBP", "LC": "XCD", "LI": "CHF", "LK": "LKR", "LR": "LRD", "LS": "ZAR", "LT": "EUR", "LU": "EUR", "LV": "EUR", "LY": "LYD", "MA": "MAD", "MC": "EUR", "MD": "MDL", "ME": "EUR", "MF": "EUR", "MG": "MGA", "MH": "USD", "MK": "MKD", "ML": "XOF", "MM": "MMK", "MN": "MNT", "MO": "MOP", "MP": "USD", "MQ": "EUR", "MR": "MRU", "MS": "XCD", "MT": "EUR", "MU": "MUR", "MV": "MVR", "MW": "MWK", "MX": "MXN", "MY": "MYR", "MZ": "MZN", "NA": "NAD", "NC": "XPF", "NE": "XOF", "NF": "AUD", "NG": "NGN", "NI": "NIO", "NL": "EUR", "NO": "NOK", "NP": "NPR", "NR": "AUD", "NU": "NZD", "NZ": "NZD", "OM": "OMR", "PA": "PAB", "PE": "PEN", "PF": "XPF", "PG": "PGK", "PH": "PHP", "PK": "PKR", "PL": "PLN", "PM": "EUR", "PN": "NZD", "PR": "USD", "PS": "ILS", "PT": "EUR", "PW": "USD", "PY": "PYG", "QA": "QAR", "RE": "EUR", "RO": "RON", "RS": "RSD", "RU": "RUB", "RW": "RWF", "SA": "SAR", "SB": "SBD", "SC": "SCR", "SD": "SDG", "SE": "SEK", "SG": "SGD", "SH": "SHP", "SI": "EUR", "SJ": "NOK", "SK": "EUR", "SL": "SLE", "SM": "EUR", "SN": "XOF", "SO": "SOS", "SR": "SRD", "SS": "SSP", "ST": "STN", "SV": "USD", "SX": "XCG", "SY": "SYP", "SZ": "SZL", "TC": "USD", "TD": "XAF", "TF": "EUR", "TG": "XOF", "TH": "THB", "TJ": "TJS", "TK": "NZD", "TL": "USD", "TM": "TMT", "TN": "TND", "TO": "TOP", "TR": "TRY", "TT": "TTD", "TV": "AUD", "TW": "TWD", "TZ": "TZS", "UA": "UAH", "UG": "UGX", "UM": "USD", "US": "USD", "UY": "UYU", "UZ": "UZS", "VA": "EUR", "VC": "XCD", "VE": "VES", "VG": "USD", "VI": "USD", "VN": "VND", "VU": "VUV", "WF": "XPF", "WS": "WST", "YE": "YER", "YT": "EUR", "ZA": "ZAR", "ZM": "ZMW", "ZW": "USD"};
+const deviceZone=()=>Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
+const online=p=>p.qp_mode==='online';
 let countryFilter='UY',cityFilter='Montevideo';
 try{const v=JSON.parse(localStorage.getItem('qp.location.v3'));if(v&&(!v.country||PintaGeo[v.country])){countryFilter=v.country||'';cityFilter=String(v.city||'').slice(0,80);}}catch{}
 const regionNames=new Intl.DisplayNames(['es'],{type:'region'});
 const countryName=code=>code?regionNames.of(code):'Todos los países';
-const fields=()=>FIELDS+(capabilities.v3?V3_FIELDS:'');
+const fields=()=>FIELDS+(capabilities.v3?V3_FIELDS:'')+(capabilities.v4?V4_FIELDS:'');
 const publicProfiles=new Map();
 let saved=new Set();
 try { const value=JSON.parse(localStorage.getItem('qp.saved.v2')||'[]'); if(Array.isArray(value))saved=new Set(value.filter(id=>typeof id==='string'&&/^[a-zA-Z0-9_-]{1,80}$/.test(id))); } catch {}
@@ -342,16 +371,17 @@ function profilePhoto(value) { const p=C.safePhoto(value);return p?`<img src="${
 function categoryOf(p) { return categories[p.category]||categories.Paseos; }
 function cover(p) { const c=categoryOf(p);return `<div class="symbol-cover cover-${esc(p.category)}"><span class="cover-orbit"></span><span class="cover-symbol">${icon(c.icon)}</span><span class="cover-caption">UN PLAN. NUEVAS HISTORIAS.</span></div>`; }
 function costText(p) { const cost=p.qp_cost??p.details?.cost_uyu,currency=p.qp_currency||'UYU';return cost===0?'Gratis':cost!=null?new Intl.NumberFormat('es',{style:'currency',currency,currencyDisplay:'code',maximumFractionDigits:2}).format(cost):''; }
-function localDate(p){return C.dateLabel(p.starts_at,new Date(),p.qp_timezone||C.ZONE);}
-function placeLabel(p){return [p.neighborhood,p.qp_city||'Montevideo'].filter(Boolean).filter((x,i,a)=>a.indexOf(x)===i).join(' · ');}
+function localDate(p){return C.dateLabel(p.starts_at,new Date(),online(p)?deviceZone():(p.qp_timezone||C.ZONE));}
+function placeLabel(p){if(online(p))return ['Online',p.qp_platform,p.qp_server_region].filter(Boolean).join(' · ');return [p.neighborhood,p.qp_city||'Montevideo'].filter(Boolean).filter((x,i,a)=>a.indexOf(x)===i).join(' · ');}
 
 function card(p) {
   const c=categoryOf(p),free=C.freeSeats(p),members=[{user_id:p.owner_id,display_name:p.owner_name},...participants(p)];
-  const spot=owns(p)?'Lo organizas tú':attends(p)?'Ya estás en el plan':!free?'Plan completo':free===1?'¡Última plaza!':`${free} plazas libres`;
-  return `<article class="plan-card"><div class="card-cover">${cover(p)}<button class="cover-open" data-plan="${esc(p.id)}" aria-label="Ver ${esc(p.title)}"></button><span class="category-badge">${c.emoji} ${esc(c.label)}</span><button class="icon-button save-button" data-save="${esc(p.id)}" aria-label="${saved.has(p.id)?'Quitar de guardados':'Guardar'}: ${esc(p.title)}" aria-pressed="${saved.has(p.id)}">${icon('bookmark')}</button></div><div class="card-content"><p class="card-date">${esc(localDate(p))}</p><h3 class="card-title"><button data-plan="${esc(p.id)}">${esc(p.title)}</button></h3><p class="card-meta">${icon('pin')}${esc(placeLabel(p))}${costText(p)?`<span class="cost-label">${esc(costText(p))}</span>`:''}</p><p class="card-description">${esc(p.description)}</p><div class="card-social"><div class="avatar-stack">${members.slice(0,3).map(m=>avatar(m.display_name,m.user_id)).join('')}${members.length>3?`<span class="avatar">+${members.length-3}</span>`:''}</div><span class="people-count">${members.length===1?'Lo organiza '+esc(p.owner_name):`${members.length} personas se suman`}</span></div><div class="card-footer"><span class="spots ${attends(p)?'joined':free===1?'urgent':''}">${spot}</span><button class="card-link" data-plan="${esc(p.id)}" aria-label="Ver plan: ${esc(p.title)}">Ver plan ${icon('arrowUp')}</button></div></div></article>`;
+  const spot=p.qp_finished_at?'Finalizado':new Date(p.starts_at)<=new Date()?'En curso':owns(p)?'Lo organizas tú':attends(p)?'Ya estás en el plan':!free?'Plan completo':free===1?'¡Última plaza!':`${free} plazas libres`;
+  return `<article class="plan-card"><div class="card-cover">${cover(p)}<button class="cover-open" data-plan="${esc(p.id)}" aria-label="Ver ${esc(p.title)}"></button><span class="category-badge">${c.emoji} ${esc(c.label)}</span><button class="icon-button save-button" data-save="${esc(p.id)}" aria-label="${saved.has(p.id)?'Quitar de guardados':'Guardar'}: ${esc(p.title)}" aria-pressed="${saved.has(p.id)}">${icon('bookmark')}</button></div><div class="card-content"><p class="card-date">${esc(localDate(p))}</p><h3 class="card-title"><button data-plan="${esc(p.id)}">${esc(p.title)}</button></h3><p class="card-meta">${icon('pin')}${esc(placeLabel(p))}${costText(p)?`<span class="cost-label">${esc(costText(p))}</span>`:''}</p><div class="card-footer"><span class="spots ${attends(p)?'joined':free===1?'urgent':''}">${spot}</span><button class="card-link" data-plan="${esc(p.id)}" aria-label="Ver plan: ${esc(p.title)}">Ver plan ${icon('arrowUp')}</button></div></div></article>`;
 }
 function emptyHTML(title,text,action='create') {return `<div class="empty-state"><div class="empty-icon">${icon(view==='saved'?'bookmark':view==='chats'?'chat':'compass')}</div><h2>${esc(title)}</h2><p>${esc(text)}</p><button class="primary" ${action==='create'?'data-create':'data-reset'}>${action==='create'?icon('plus')+'Crear un plan':'Ver todos los planes'}</button></div>`;}
 function updateViewUI() {
+  $('mine-tabs').hidden=view!=='mine'||!capabilities.v4;document.querySelectorAll('[data-history]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.history===historyMode));
   document.querySelectorAll('[data-view]').forEach(b=>{if(b.dataset.view===view)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
   document.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.category===activity));
   document.querySelectorAll('[data-date]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.date===dateFilter));
@@ -360,9 +390,10 @@ function updateViewUI() {
   $('page-title').innerHTML=view==='mine'?'Tus próximos <span>planes.</span>':view==='saved'?'Para <span>después.</span>':'¿Qué pinta <span>hoy?</span>';
   $('eyebrow').textContent=view==='mine'?'YA TIENES CON QUIÉN':view==='saved'?'QUE NO SE TE ESCAPE':'✳ SAL DE LA RUTINA';
   $('page-intro').textContent=view==='mine'?'Los que organizas y los que ya te esperan.':view==='saved'?'Esos planes que te dieron ganas.':'Haz espacio para algo nuevo. Encuentra tu próximo plan.';
-  $('list-title').textContent=view==='mine'?'Nos vemos ahí':view==='saved'?'Tus planes guardados':'Tu próximo buen plan';
+  $('list-title').textContent=view==='mine'?(historyMode==='past'?'Planes anteriores':'Tus planes activos'):view==='saved'?'Tus planes guardados':'Tu próximo buen plan';
   $('save-hint').hidden=view!=='saved';$('inspiration').hidden=view!=='explore';
-  $('reset-filters').hidden=activity==='Todos'&&dateFilter==='all'&&!onlyFree&&!onlySeats&&!$('zone').value&&!$('search').value;
+  $('show-filters').textContent=(activity!=='Todos'||onlyFree||onlySeats||$('zone').value||$('search').value||browseMode!=='all')?'Filtros · activos':'Filtros';
+  $('reset-filters').hidden=browseMode==='all'&&activity==='Todos'&&dateFilter==='all'&&!onlyFree&&!onlySeats&&!$('zone').value&&!$('search').value;
   $('clear-search').hidden=!$('search').value;
 }
 function render() {
@@ -370,7 +401,7 @@ function render() {
   updateViewUI();$('count').textContent=`${plans.length}${hasMore?'+':''} ${plans.length===1?'plan':'planes'}`;$('more').hidden=!hasMore;
   if(plans.length){$('plans').innerHTML=plans.map(card).join('');animateCards();return;}
   const filtered=activity!=='Todos'||dateFilter!=='all'||onlyFree||onlySeats||$('zone').value||$('search').value;
-  $('plans').innerHTML=filtered?emptyHTML('Por aquí todavía no hay planes.','Prueba con otra fecha, actividad o barrio.','reset'):view==='mine'?emptyHTML('Tu agenda está por despegar.','Únete a un plan o propón el tuyo.'):view==='saved'?emptyHTML('Guarda lo que te dé ganas.','Toca el marcador en un plan para encontrarlo aquí después.','reset'):emptyHTML('El primer plan puede ser tuyo.','Una vuelta, un café o un partido. Propón algo y deja que se sumen.');
+  $('plans').innerHTML=filtered?emptyHTML('Por aquí todavía no hay planes.','Prueba con otra fecha, actividad o barrio.','reset'):view==='mine'?emptyHTML(historyMode==='past'?'Aquí quedarán tus encuentros.':'Tu agenda está por despegar.',historyMode==='past'?'Cuando el organizador finalice un plan, lo encontrarás aquí.':'Únete a un plan o propón el tuyo.'):view==='saved'?emptyHTML('Guarda lo que te dé ganas.','Toca el marcador en un plan para encontrarlo aquí después.','reset'):emptyHTML('El primer plan puede ser tuyo.','Una vuelta, un café o un partido. Propón algo y deja que se sumen.');
 }
 function skeletons(){return Array.from({length:2},()=>'<div class="loading-card"><div class="skeleton-cover"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>').join('');}
 async function myPlanIds(userId) {
@@ -387,7 +418,7 @@ async function enrich(rows) {
 async function loadPlans(append=false) {
   if(view==='chats')return loadChatList();
   if(!ready||!db)return;
-  const ticket=++requestNumber,currentUser=user?.id,queryText=$('search').value.trim(),filters={activity,date:dateFilter,zone:$('zone').value,country:countryFilter,city:cityFilter,free:onlyFree,seats:onlySeats,view};
+  const ticket=++requestNumber,currentUser=user?.id,queryText=$('search').value.trim(),filters={history:historyMode,mode:browseMode,activity,date:dateFilter,zone:$('zone').value,country:countryFilter,city:cityFilter,free:onlyFree,seats:onlySeats,view};
   clearTimeout(searchTimer);updateViewUI();setLoadError('');$('reload').disabled=true;$('more').disabled=true;$('plans').setAttribute('aria-busy','true');
   if(!append){cardObserver?.disconnect();plans=[];offset=0;hasMore=false;$('plans').innerHTML=skeletons();$('count').textContent='Buscando…';$('more').hidden=true;}
   try{
@@ -398,8 +429,12 @@ async function loadPlans(append=false) {
     const initialCount=plans.length;
     do {
       let q=db.from('pinta_plans').select(fields()).order('starts_at').order('id');
-      q=q.gte('starts_at',new Date().toISOString());
-      if(capabilities.v3&&filters.country)q=q.eq('qp_country_code',filters.country);
+      if(filters.view!=='mine')q=q.gte('starts_at',new Date().toISOString());
+      if(capabilities.v4){
+        q=filters.view==='mine'&&filters.history==='past'?q.not('qp_finished_at','is',null):q.is('qp_finished_at',null);
+        if(filters.view==='explore'&&filters.mode!=='all')q=q.eq('qp_mode',filters.mode);
+        if(filters.view==='explore'&&filters.country&&filters.mode!=='online')q=q.or(`qp_mode.eq.online,qp_country_code.eq.${filters.country}`);
+      }else if(capabilities.v3&&filters.country&&filters.view==='explore')q=q.eq('qp_country_code',filters.country);
       if(filters.activity!=='Todos')q=q.eq('category',filters.activity);
       // City, neighborhood and calendar filters run after the country query, ignoring accents.
       if(filters.view==='mine')q=ids.length?q.or(`owner_id.eq.${currentUser},id.in.(${ids.join(',')})`):q.eq('owner_id',currentUser);
@@ -408,13 +443,13 @@ async function loadPlans(append=false) {
       if(ticket!==requestNumber)return;
       const rows=await enrich(data);if(ticket!==requestNumber)return;
       offset+=data.length;hasMore=data.length===80;
-      plans=C.mergeUnique(plans,rows.filter(p=>C.matchesSearch(p,queryText)&&C.matchesDate(p,filters.date)&&(!filters.country||(p.qp_country_code||'UY')===filters.country)&&(!filters.city||C.normalize(p.qp_city||'Montevideo').includes(C.normalize(filters.city)))&&(!filters.zone||C.normalize(p.neighborhood).includes(C.normalize(filters.zone)))&&(!filters.seats||C.freeSeats(p)>0)&&(!filters.free||(p.qp_cost??p.details?.cost_uyu)===0)));
+      plans=C.mergeUnique(plans,rows.filter(p=>C.matchesSearch(p,queryText)&&C.matchesDate(online(p)?{...p,qp_timezone:deviceZone()}:p,filters.date,new Date(),filters.view==='mine')&&(filters.view!=='explore'||online(p)||((!filters.country||(p.qp_country_code||'UY')===filters.country)&&(!filters.city||C.normalize(p.qp_city||'Montevideo').includes(C.normalize(filters.city)))&&(!filters.zone||C.normalize(p.neighborhood).includes(C.normalize(filters.zone)))))&&(!filters.seats||C.freeSeats(p)>0)&&(!filters.free||(p.qp_cost??p.details?.cost_uyu)===0)));
     }while(hasMore&&plans.length-initialCount<12);
     render();
   }catch(error){if(ticket!==requestNumber)return;setLoadError(explain(error));if(!append){$('plans').innerHTML='';$('count').textContent='Sin conexión';}}
   finally{if(ticket===requestNumber){$('reload').disabled=false;$('more').disabled=false;$('plans').setAttribute('aria-busy','false');}}
 }
-function resetFilters(){activity='Todos';dateFilter='all';onlyFree=false;onlySeats=false;$('zone').value='';$('search').value='';updateViewUI();}
+function resetFilters(){browseMode='all';$('browse-mode').value='all';activity='Todos';dateFilter='all';onlyFree=false;onlySeats=false;$('zone').value='';$('search').value='';updateViewUI();}
 async function goView(next) {
   if((next==='mine'||next==='chats')&&!user){if(requireConnection())openAuth('login',{view:next});return;}
   ++requestNumber;++chatListTicket;view=next;resetFilters();updateViewUI();
@@ -434,18 +469,20 @@ async function readPlan(id){const {data,error}=await boundedRead(db.from('pinta_
 function detailHTML(p){
   selectedPlan=p;const c=categoryOf(p),members=[{user_id:p.owner_id,display_name:p.owner_name,host:true},...participants(p)],past=new Date(p.starts_at)<=new Date();
   $('detail-cover').innerHTML=cover(p);$('detail-title').textContent=p.title;$('detail-category').innerHTML=`<span class="category-badge">${c.emoji} ${esc(c.label)}</span>`;
-  $('detail-body').innerHTML=`<div class="detail-facts"><div class="detail-fact"><span class="fact-icon">${icon('calendar')}</span><div><strong>${esc(localDate(p))}</strong><small>Hora de ${esc(p.qp_city||'Montevideo')} · ${esc((p.qp_timezone||C.ZONE).split('/').pop().replaceAll('_',' '))}</small></div></div><div class="detail-fact"><span class="fact-icon">${icon('pin')}</span><div><strong>${esc(placeLabel(p))}</strong><small>${esc(p.meeting_point)}</small></div></div>${costText(p)?`<div class="detail-fact"><span class="fact-icon">${icon('wallet')}</span><div><strong>${esc(costText(p))}</strong><small>${(p.qp_cost??p.details?.cost_uyu)===0?'Sin costo de participación':'Costo estimado por persona'}</small></div></div>`:''}</div><h3>¿De qué va el plan?</h3><p class="detail-description">${esc(p.description)}</p>${attends(p)?`<div class="detail-status">${icon('check')} ${owns(p)?'Este plan lo organizas tú.':'¡Tienes tu plaza en este plan!'}</div>`:''}<div class="people-heading"><h3>Quiénes se suman</h3><span class="capacity-pill">${members.length} / ${p.capacity}</span></div><div class="people-list">${members.map(m=>`<${capabilities.profiles?'button':'div'} class="person-row" ${capabilities.profiles?`data-person="${esc(m.user_id)}" data-name="${esc(m.display_name)}"`:''}>${avatar(m.display_name,m.user_id)}<span><strong>${esc(m.display_name)}${m.user_id===user?.id?' (tú)':''}</strong><small>${m.host?'Organiza el plan':'Se suma al plan'}</small></span>${capabilities.profiles?`<span>${icon('arrowUp')}</span>`:''}</${capabilities.profiles?'button':'div'}>`).join('')}</div>`;
+  $('detail-body').innerHTML=`<div class="detail-facts"><div class="detail-fact"><span class="fact-icon">${icon('calendar')}</span><div><strong>${esc(localDate(p))}</strong><small>${online(p)?'Tu horario local':('Hora de '+esc(p.qp_city||'Montevideo'))} · ${esc((online(p)?deviceZone():(p.qp_timezone||C.ZONE)).split('/').pop().replaceAll('_',' '))}</small></div></div><div class="detail-fact"><span class="fact-icon">${icon('pin')}</span><div><strong>${esc(placeLabel(p))}</strong><small>${online(p)?'Coordinen el acceso en el chat del grupo':esc(p.meeting_point)}</small></div></div>${costText(p)?`<div class="detail-fact"><span class="fact-icon">${icon('wallet')}</span><div><strong>${esc(costText(p))}</strong><small>${(p.qp_cost??p.details?.cost_uyu)===0?'Sin costo de participación':'Costo estimado por persona'}</small></div></div>`:''}</div><h3>¿De qué va el plan?</h3><p class="detail-description">${esc(p.description)}</p>${attends(p)?`<div class="detail-status">${icon('check')} ${owns(p)?'Este plan lo organizas tú.':'¡Tienes tu plaza en este plan!'}</div>`:''}<div class="people-heading"><h3>Quiénes se suman</h3><span class="capacity-pill">${members.length} / ${p.capacity}</span></div><div class="people-list">${members.map(m=>`<${capabilities.profiles?'button':'div'} class="person-row" ${capabilities.profiles?`data-person="${esc(m.user_id)}" data-name="${esc(m.display_name)}"`:''}>${avatar(m.display_name,m.user_id)}<span><strong>${esc(m.display_name)}${m.user_id===user?.id?' (tú)':''}</strong><small>${m.host?'Organiza el plan':'Se suma al plan'}</small></span>${capabilities.profiles?`<span>${icon('arrowUp')}</span>`:''}</${capabilities.profiles?'button':'div'}>`).join('')}</div>`;
   showMeetingMap(p);
-  $('join').textContent=owns(p)?'Tú organizas este plan':attends(p)?'Salir del plan':past?'El plan ya comenzó':C.nextSeat(p)===null?'Plan completo':user?'¡Me uno!':'Entrar para unirme';
-  $('join').disabled=actionBusy||owns(p)||(!attends(p)&&(past||C.nextSeat(p)===null));
+  $('join').textContent=p.qp_finished_at?'Plan finalizado':owns(p)?'Tú organizas este plan':attends(p)?'Salir del plan':past?'El plan ya comenzó':C.nextSeat(p)===null?'Plan completo':user?'¡Me uno!':'Entrar para unirme';
+  $('join').disabled=actionBusy||!!p.qp_finished_at||owns(p)||(!attends(p)&&(past||C.nextSeat(p)===null));
   $('save-detail').setAttribute('aria-pressed',saved.has(p.id));$('save-detail').disabled=false;$('save-detail').setAttribute('aria-label',saved.has(p.id)?'Quitar de guardados':'Guardar plan');
-  $('cancel-plan').hidden=!owns(p);$('share-plan').hidden=false;$('share-link').value=planLink(p.id);$('open-plan-chat').hidden=!attends(p)||!capabilities.messages;
+  $('cancel-plan').hidden=!owns(p)||!!p.qp_finished_at;
+  $('finish-plan').hidden=!capabilities.v4||!owns(p)||!!p.qp_finished_at||!past;
+  $('plan-experience').hidden=true;if(p.qp_finished_at&&attends(p))loadExperience(p);$('share-plan').hidden=false;$('share-link').value=planLink(p.id);$('open-plan-chat').hidden=!attends(p)||!capabilities.messages;
 }
 async function showPlan(id){
   if(!requireConnection())return;const ticket=++detailTicket;selectedId=id;selectedPlan=null;
   detailMap?.remove();detailMap=null;$('detail-map-section').hidden=true;$('directions').hidden=true;
   $('detail-error').textContent='';$('detail-title').textContent='Cargando plan…';$('detail-category').textContent='';$('detail-body').innerHTML='<p class="muted">Buscando los detalles…</p>';$('detail-cover').innerHTML='';
-  $('share-plan').hidden=true;$('share-fallback').hidden=true;$('join').disabled=true;$('save-detail').disabled=true;$('cancel-plan').hidden=true;$('open-plan-chat').hidden=true;openDialog('detail');
+  $('finish-plan').hidden=true;$('plan-experience').hidden=true;$('share-plan').hidden=true;$('share-fallback').hidden=true;$('join').disabled=true;$('save-detail').disabled=true;$('cancel-plan').hidden=true;$('open-plan-chat').hidden=true;openDialog('detail');
   try{const p=await readPlan(id);if(selectedId===id&&ticket===detailTicket)detailHTML(p);}catch(error){if(ticket===detailTicket){$('detail-title').textContent='No se pudo abrir el plan';$('detail-error').textContent=explain(error);}}
 }
 async function sharePlan(){
@@ -460,7 +497,7 @@ async function changeMembership(allowLeave=false){
   if(selectedPlan&&attends(selectedPlan)&&!owns(selectedPlan)&&!allowLeave){openDialog('confirm-leave');return;}
   const id=selectedId,actor=user.id;actionBusy=true;$('join').disabled=true;$('detail-error').textContent='';
   try{
-    let p=await readPlan(id);if(user?.id!==actor)throw Error('Tu sesión cambió. Vuelve a entrar.');if(owns(p))return;
+    let p=await readPlan(id);if(user?.id!==actor)throw Error('Tu sesión cambió. Vuelve a entrar.');if(owns(p))return;if(p.qp_finished_at)throw Error('El plan ya finalizó. Lo encontrarás en Planes anteriores.');
     if(attends(p)){
       if(!allowLeave){openDialog('confirm-leave');return;}
       const {error}=await db.from('pinta_participants').delete().eq('plan_id',id).eq('user_id',actor);if(error)throw error;notice('Saliste del plan. Tu plaza quedó libre.');
@@ -500,29 +537,29 @@ function openAuth(mode='login',next=null){
 }
 async function createPlanDialog(idea=null){
   if(idea)pendingIdea=idea;if(!requireConnection())return;if(!user){openAuth('login',{create:true});return;}
-  if(!await ensureAdult({create:true}))return;
+  if(!await ensureAdult({create:true}))return;if(!capabilities.v4){notice('Falta activar la actualización 4.');return;}
   $('create-error').textContent='';$('host-name').value=nameOfUser();
   if(!$('plan-country').value){$('plan-country').value=countryFilter||'UY';$('plan-city').value=cityFilter;populateTimezones();}
   $('date').min=C.inputDate(new Date(Date.now()+60000),$('plan-timezone').value);
   if(pendingIdea){const ideas={walk:{title:'Una vuelta para conocer gente',category:'Paseos'},coffee:{title:'Un café y una buena charla',category:'Comida'},football:{title:'¿Jugamos un partido de fútbol?',category:'Deporte'}};const p=ideas[pendingIdea];if(p){$('title').value=p.title;$('category').value=p.category;}pendingIdea=null;}
-  $('cost-field').hidden=false;openDialog('create');initCreateMap();
+  openDialog('create');syncPlanMode();
 }
 function openProfile(){if(!requireConnection())return;if(!user){openAuth('login',{profile:true});return;}const m=user.user_metadata||{};$('profile-name').value=nameOfUser();$('profile-bio').value=String(m.bio||'').slice(0,240);$('profile-photo').value=C.safePhoto(m.avatar_url);$('profile-avatar').innerHTML=profilePhoto(m.avatar_url);$('profile-error').textContent='';document.querySelectorAll('input[name=interest]').forEach(i=>i.checked=Array.isArray(m.interests)&&m.interests.includes(i.value));$('profile-scope').textContent=capabilities.profiles?'Al guardar, tu nombre, foto, descripción e intereses serán públicos. Tu correo queda privado.':'Tu nombre, foto e intereses se guardan en tu cuenta. El perfil público todavía no está habilitado.';$('profile-instagram').value=String(m.instagram_url||'');$('profile-facebook').value=String(m.facebook_url||'');$('show-socials').checked=m.show_socials===true;openDialog('profile');}
 async function resumeAfterAuth(next){if(next?.create)await createPlanDialog();else if(next?.profile)openProfile();else if(next?.view)await goView(next.view);else if(next?.plan)await showPlan(next.plan);else if(next?.chat)await openChat(next.chat);}
 async function showPerson(id,name){
-  $('person-title').textContent=name;$('person-body').innerHTML='<p class="muted">Cargando perfil…</p>';openDialog('person');
-  try{const {data,error}=await boundedRead(db.from('qp_profiles').select('id,display_name,bio,avatar_url,interests'+(capabilities.v3?',instagram_url,facebook_url':'')).eq('id',id).maybeSingle());if(error)throw error;
+  friendPerson=id;const ticket=++friendTicket;$('friend-action').replaceChildren();if(capabilities.v4&&user&&id!==user.id)renderFriendAction(id,ticket);$('person-title').textContent=name;$('person-body').innerHTML='<p class="muted">Cargando perfil…</p>';openDialog('person');
+  try{const {data,error}=await boundedRead(db.from('qp_profiles').select('id,display_name,bio,avatar_url,interests'+(capabilities.v3?',instagram_url,facebook_url':'')).eq('id',id).maybeSingle());if(error)throw error;if(ticket!==friendTicket)return;
     if(!data){$('person-body').innerHTML='<p class="muted">Esta persona todavía no completó su perfil público.</p>';return;}
     $('person-title').textContent=data.display_name;const photo=C.safePhoto(data.avatar_url);
     $('person-body').innerHTML=`<div class="profile-person-avatar">${photo?`<img src="${esc(photo)}" alt="Foto de perfil" referrerpolicy="no-referrer">`:esc(C.initials(data.display_name))}</div><p class="detail-description">${esc(data.bio||'Sin descripción todavía.')}</p><div>${(data.interests||[]).filter(c=>categories[c]&&c!=='Todos').map(c=>`<span class="profile-interest">${categories[c].emoji} ${esc(categories[c].label)}</span>`).join('')}</div><div class="social-links">${[['Instagram','instagram',data.instagram_url],['Facebook','facebook',data.facebook_url]].map(([label,network,value])=>{const url=C.socialURL(value,network);return url?`<a class="secondary" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${label} ${icon('arrowUp')}</a>`:'';}).join('')}</div>`;
   }catch(error){$('person-body').textContent=explain(error);}
 }
 async function detectCapabilities(){
-  const keys=[['profiles','qp_profiles','id'],['messages','qp_messages','id'],['details','qp_plan_details','plan_id'],['v3','pinta_plans','qp_country_code,qp_city,qp_timezone,qp_latitude,qp_longitude,qp_cost,qp_currency']];
+  const keys=[['v4','pinta_plans','qp_mode,qp_finished_at,qp_platform,qp_server_region'],['profiles','qp_profiles','id'],['messages','qp_messages','id'],['details','qp_plan_details','plan_id'],['v3','pinta_plans','qp_country_code,qp_city,qp_timezone,qp_latitude,qp_longitude,qp_cost,qp_currency']];
   await Promise.all(keys.map(async([key,table,field])=>{try{const {error}=await boundedRead(db.from(table).select(field).limit(0),6000);capabilities[key]=!error;}catch{capabilities[key]=false;}}));
   $('free-filter').hidden=!capabilities.v3&&!capabilities.details;$('cost-field').hidden=!capabilities.v3;
   capabilities.age=false;
-  if(capabilities.v3){try{const {data,error}=await boundedRead(db.from('qp_app_config').select('key,value').in('key',['maps','release']),4000);if(error)throw error;for(const row of data||[]){if(row.key==='maps')PintaMaps.configure(row.value);if(row.key==='release')capabilities.age=row.value?.version===3&&row.value?.adultDeclaration===true;}}catch{}}
+  if(capabilities.v3){try{const {data,error}=await boundedRead(db.from('qp_app_config').select('key,value').in('key',['maps','release']),4000);if(error)throw error;for(const row of data||[]){if(row.key==='maps')PintaMaps.configure(row.value);if(row.key==='release')capabilities.age=row.value?.version>=3&&row.value?.adultDeclaration===true;}}catch{}}
 }
 async function loadChatList(){
   if(!user||!ready)return;const ticket=++chatListTicket,actor=user.id;$('chat-list').innerHTML='<p class="muted">Buscando tus grupos…</p>';
@@ -613,19 +650,22 @@ $('profile-form').onsubmit=async event=>{
 $('form').onsubmit=async event=>{
   event.preventDefault();const button=$('create-submit');if(button.disabled)return;if(!await ensureAdult({create:true}))return;button.disabled=true;$('create-error').textContent='';
   try{
-    const qp_timezone=$('plan-timezone').value,starts_at=C.inputToISO($('date').value,qp_timezone);
+    if(!capabilities.v4)throw Error('Activa la actualización 4 antes de crear planes.');
+    const isOnline=$('plan-mode').value==='online';
+    const qp_timezone=isOnline?deviceZone():$('plan-timezone').value,starts_at=C.inputToISO($('date').value,qp_timezone);
     if(new Date(starts_at)<=new Date())throw Error('Elige una fecha futura.');
     const capacity=Number($('capacity').value);if(!Number.isInteger(capacity)||capacity<2||capacity>30)throw Error('Elige entre 2 y 30 plazas.');
-    const qp_country_code=$('plan-country').value,qp_city=$('plan-city').value.trim();
-    if(!PintaGeo[qp_country_code]||!qp_city||!PintaGeo[qp_country_code].some(z=>z[0]===qp_timezone))throw Error('Revisa el país, la ciudad y la zona horaria.');
-    const qp_cost=$('cost').value!==''?Number($('cost').value):null;
+    const qp_country_code=isOnline?null:$('plan-country').value,qp_city=isOnline?null:$('plan-city').value.trim();
+    if(!isOnline&&(!PintaGeo[qp_country_code]||!qp_city||!PintaGeo[qp_country_code].some(z=>z[0]===qp_timezone)))throw Error('Revisa el país, la ciudad y la zona horaria.');
+    const qp_cost=!isOnline&&$('has-cost').checked?Number($('cost').value):0;
+    if(!isOnline&&$('has-cost').checked&&(!$('cost').value||qp_cost<=0||!currencyByCountry[qp_country_code]))throw Error('Introduce un costo válido.');
     if(qp_cost!==null&&(!Number.isFinite(qp_cost)||qp_cost<0||qp_cost>100000))throw Error('El costo debe estar entre 0 y 100000.');
-    if(($('latitude').value||$('longitude').value)&&(!meetingPin||Number($('latitude').value)!==meetingPin.lat||Number($('longitude').value)!==meetingPin.lng))throw Error('Aplica las coordenadas antes de publicar, o borra ambos campos.');
-    const p={owner_id:user.id,owner_name:$('host-name').value.trim(),title:$('title').value.trim(),category:$('category').value,neighborhood:$('neighborhood').value.trim(),meeting_point:$('place').value.trim(),starts_at,capacity,description:$('description').value.trim(),qp_country_code,qp_city,qp_timezone,qp_latitude:meetingPin?.lat??null,qp_longitude:meetingPin?.lng??null,qp_cost,qp_currency:$('currency').value};
+    if(!isOnline&&($('latitude').value||$('longitude').value)&&(!meetingPin||Number($('latitude').value)!==meetingPin.lat||Number($('longitude').value)!==meetingPin.lng))throw Error('Aplica las coordenadas antes de publicar, o borra ambos campos.');
+    const p={owner_id:user.id,owner_name:$('host-name').value.trim(),title:$('title').value.trim(),category:$('category').value,neighborhood:isOnline?'Online':($('neighborhood').value.trim()||qp_city.slice(0,60)),meeting_point:isOnline?'Coordinar en el chat del grupo':$('place').value.trim(),starts_at,capacity,description:$('description').value.trim()||'Coordinamos los detalles en el chat del grupo.',qp_country_code,qp_city,qp_timezone,qp_latitude:isOnline?null:(meetingPin?.lat??null),qp_longitude:isOnline?null:(meetingPin?.lng??null),qp_cost,qp_currency:isOnline?null:(currencyByCountry[qp_country_code]||null),qp_mode:isOnline?'online':'presential',qp_platform:isOnline&&$('category').value==='Juegos'?$('platform').value:'',qp_server_region:isOnline&&$('category').value==='Juegos'?$('server-region').value.trim():''};
     if(!p.owner_name||!p.title||!p.meeting_point||!p.description||!p.neighborhood)throw Error('Completa los campos del encuentro.');
     const {data,error}=await db.from('pinta_plans').insert(p).select('id').single();if(error)throw error;
     $('create').close();event.target.reset();$('plan-country').value='';meetingPin=null;$('description-count').textContent='0/400';notice('¡Tu plan está publicado!');celebrate();
-    countryFilter=qp_country_code;cityFilter=qp_city;saveLocation();view='mine';resetFilters();await loadPlans();await showPlan(String(data.id));
+    if(!isOnline){countryFilter=qp_country_code;cityFilter=qp_city;saveLocation();}historyMode='active';view='mine';resetFilters();await loadPlans();await showPlan(String(data.id));
   }catch(error){$('create-error').textContent=explain(error);}finally{button.disabled=false;}
 };
 
@@ -675,22 +715,21 @@ function populateTimezones(){
   const country=$('plan-country').value,zones=PintaGeo[country]||PintaGeo.UY;
   $('plan-timezone').innerHTML=zones.map(([z])=>`<option value="${esc(z)}">${esc(z.split('/').slice(1).join(' / ').replaceAll('_',' '))}</option>`).join('');
   $('plan-timezone').value=zones[0][0];$('date').min=C.inputDate(new Date(Date.now()+60000),zones[0][0]);
-  const currencies={UY:'UYU',AR:'ARS',BR:'BRL',CL:'CLP',CO:'COP',PE:'PEN',MX:'MXN',CU:'CUP',DO:'DOP',BO:'BOB',PY:'PYG',VE:'VES',CR:'CRC',GT:'GTQ',HN:'HNL',NI:'NIO',CA:'CAD',GB:'GBP',JP:'JPY',CN:'CNY',ES:'EUR',PT:'EUR',FR:'EUR',DE:'EUR',IT:'EUR'};
-  $('currency').value=currencies[country]||'USD';
+  $('currency').value=currencyByCountry[country]||'';updateCreateLabels();
 }
 function mapCenter(){return (PintaGeo[$('plan-country').value]||PintaGeo.UY).find(z=>z[0]===$('plan-timezone').value)?.slice(1)||(PintaGeo[$('plan-country').value]||PintaGeo.UY)[0].slice(1);}
 function setMeetingPin(lat,lng){
   if(!C.validCoordinates(lat,lng))return;
   meetingPin={lat:Number(lat.toFixed(6)),lng:Number(lng.toFixed(6))};
   $('latitude').value=meetingPin.lat;$('longitude').value=meetingPin.lng;
-  $('map-status').textContent='Punto marcado. Comprueba que coincide con la ciudad y la dirección del encuentro.';
+  $('map-status').textContent='Punto elegido. Pulsa Confirmar este lugar para continuar.'; $('confirm-place').disabled=false;
 }
 function initCreateMap(){
-  createMap?.remove();createMap=PintaMaps.create($('create-map'),meetingPin?[meetingPin.lat,meetingPin.lng]:mapCenter(),setMeetingPin,text=>$('map-status').textContent=text);
+  if($('plan-mode').value==='online'||!$('map-disclosure').open)return;createMap?.remove();createMap=PintaMaps.create($('create-map'),meetingPin?[meetingPin.lat,meetingPin.lng]:mapCenter(),setMeetingPin,text=>$('map-status').textContent=text);
   if(meetingPin)createMap?.select(meetingPin.lat,meetingPin.lng);
 }
 function showMeetingMap(plan){
-  detailMap?.remove();detailMap=null;
+  detailMap?.remove();detailMap=null;if(online(plan)){$('detail-map-section').hidden=true;$('directions').hidden=true;return;}
   const valid=C.validCoordinates(plan.qp_latitude,plan.qp_longitude);
   $('detail-map-section').hidden=!valid;$('directions').hidden=false;$('directions').href=C.directionsURL(plan);$('detail-map-status').textContent='';
   if(valid){detailMap=PintaMaps.create($('detail-map'),[plan.qp_latitude,plan.qp_longitude],null,text=>$('detail-map-status').textContent=text);detailMap?.select(plan.qp_latitude,plan.qp_longitude);detailMap?.center(plan.qp_latitude,plan.qp_longitude,16);}
@@ -728,12 +767,12 @@ function celebrate(){
   setTimeout(()=>layer.replaceChildren(),1800);
 }
 $('plan-country').innerHTML=countryOptions();$('filter-country').innerHTML=countryOptions(true);$('plan-country').value='';
-$('currency').innerHTML=(Intl.supportedValuesOf?Intl.supportedValuesOf('currency'):['USD','EUR','UYU','ARS','BRL','CLP','COP','MXN']).map(c=>`<option value="${c}">${c}</option>`).join('');
+
 $('location-form').onsubmit=e=>{e.preventDefault();countryFilter=$('filter-country').value;cityFilter=$('filter-city').value.trim();saveLocation();$('location').close();resetFilters();loadPlans();};
 $('filter-country').onchange=()=>{$('filter-city').value='';};
 $('plan-country').onchange=()=>{++mapSearchTicket;$('map-search-button').disabled=false;$('plan-city').value='';$('neighborhood').value='';$('place').value='';$('map-query').value='';$('map-results').replaceChildren();$('date').value='';populateTimezones();clearMeetingPin();initCreateMap();};
-$('plan-city').onchange=()=>{++mapSearchTicket;$('map-search-button').disabled=false;clearMeetingPin();$('map-results').replaceChildren();};
-$('plan-timezone').onchange=()=>{clearMeetingPin();initCreateMap();$('date').min=C.inputDate(new Date(Date.now()+60000),$('plan-timezone').value);};
+$('plan-city').onchange=()=>{updateCreateLabels();++mapSearchTicket;$('map-search-button').disabled=false;clearMeetingPin();$('map-results').replaceChildren();};
+$('plan-timezone').onchange=()=>{updateCreateLabels();clearMeetingPin();initCreateMap();$('date').min=C.inputDate(new Date(Date.now()+60000),$('plan-timezone').value);};
 $('map-search-button').onclick=searchMap;$('map-query').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();searchMap();}};
 $('remove-pin').onclick=clearMeetingPin;
 $('apply-coordinates').onclick=()=>{const lat=Number($('latitude').value),lng=Number($('longitude').value);if(!$('latitude').value||!$('longitude').value||!C.validCoordinates(lat,lng)){$('map-status').textContent='Introduce una latitud entre −85 y 85 y una longitud entre −180 y 180.';return;}setMeetingPin(lat,lng);createMap?.select(lat,lng);createMap?.center(lat,lng);};
@@ -744,11 +783,118 @@ $('age-form').onsubmit=async e=>{
   $('age-submit').disabled=true;const actor=user.id;
   try{const {error}=await db.from('qp_age_declarations').insert({user_id:actor,birth_date});if(error)throw error;if(user?.id!==actor)return;adultUserId=actor;$('age').close();$('age-form').reset();const next=afterAge;afterAge=null;notice('Declaración guardada de forma privada.');await resumeAfterAuth(next);}catch(error){$('age-error').textContent=explain(error);}finally{$('age-submit').disabled=false;}
 };
-$('create').addEventListener('close',()=>{++mapSearchTicket;createMap?.remove();createMap=null;$('map-search-button').disabled=false;});
+$('create').addEventListener('close',()=>{$('map-picker').classList.remove('map-expanded');$('expand-map').textContent='Ampliar';++mapSearchTicket;createMap?.remove();createMap=null;$('map-search-button').disabled=false;});
 $('detail').addEventListener('close',()=>{detailMap?.remove();detailMap=null;});
 for(const id of ['auth-birthdate','age-birthdate'])$(id).max=C.dateKey(new Date(),'UTC');
 document.addEventListener('click',e=>{const b=e.target.closest('.save-button,.category-tab,.bottom-nav button');if(b&&!matchMedia('(prefers-reduced-motion: reduce)').matches)b.animate([{transform:'scale(1)'},{transform:'scale(.92)'},{transform:'scale(1)'}],{duration:260});});
 updateLocationLabels();
+
+function updateCreateLabels(){
+ const country=$('plan-country').value,city=$('plan-city').value.trim(),isOnline=$('plan-mode').value==='online';
+ $('create-location-label').textContent=[city,country?countryName(country):''].filter(Boolean).join(' · ')||'Elige tu ciudad';
+ const currency=currencyByCountry[country];$('currency').value=currency||'';
+ $('currency-label').textContent=currency?new Intl.DisplayNames(['es'],{type:'currency'}).of(currency)+' ('+currency+')':'Moneda no disponible';
+ $('date-zone-hint').textContent=isOnline?'Tu horario: '+deviceZone().replaceAll('_',' '):'Horario: '+($('plan-timezone').value||'Selecciona una ciudad').replaceAll('_',' ');
+ $('has-cost').disabled=isOnline||!currency;
+ if(!currency||isOnline)$('has-cost').checked=false;
+ $('paid-fields').hidden=!$('has-cost').checked;$('cost').required=$('has-cost').checked&&!isOnline;
+}
+function syncPlanMode(){
+ const isOnline=$('plan-mode').value==='online';
+ $('physical-fields').hidden=isOnline;$('online-fields').hidden=!isOnline;$('cost-field').hidden=isOnline;
+ for(const id of ['plan-country','plan-city','plan-timezone','place']){$(id).required=!isOnline;$(id).disabled=isOnline;}
+ $('gaming-fields').hidden=!isOnline||$('category').value!=='Juegos';
+ $('date').min=C.inputDate(new Date(Date.now()+60000),isOnline?deviceZone():($('plan-timezone').value||C.ZONE));
+ if(isOnline){++mapSearchTicket;createMap?.remove();createMap=null;}else initCreateMap();
+ updateCreateLabels();
+ if(!isOnline&&!$('plan-city').value)$('location-options').open=true;
+}
+$('show-filters').onclick=()=>openDialog('filter-sheet');
+$('browse-mode').onchange=()=>{browseMode=$('browse-mode').value;loadPlans();};
+$('mine-tabs').onclick=e=>{const b=e.target.closest('[data-history]');if(!b)return;historyMode=b.dataset.history;resetFilters();loadPlans();};
+$('plan-mode').onchange=()=>{$('date').value='';syncPlanMode();};
+$('category').onchange=()=>syncPlanMode();
+$('has-cost').onchange=updateCreateLabels;
+$('map-disclosure').addEventListener('toggle',()=>{if($('map-disclosure').open)initCreateMap();});
+$('expand-map').onclick=()=>{const expanded=$('map-picker').classList.toggle('map-expanded');$('expand-map').textContent=expanded?'Reducir':'Ampliar';setTimeout(()=>createMap?.resize(),80);};
+$('confirm-place').onclick=()=>{
+ if(!meetingPin){$('map-status').textContent='Primero busca un lugar o toca el mapa.';return;}
+ if(!$('place').value.trim()){$('map-status').textContent='Escribe el nombre o la dirección del lugar para que puedan reconocerlo.';$('map-picker').classList.remove('map-expanded');$('expand-map').textContent='Ampliar';$('place').focus();return;}
+ $('map-picker').classList.remove('map-expanded');$('expand-map').textContent='Ampliar';$('map-disclosure').open=false;notice('Lugar confirmado.');
+};
+$('finish-plan').onclick=()=>openFinish(selectedPlan);
+function openFinish(p){
+ if(!p||!owns(p))return;finishId=p.id;$('finish-form').reset();$('finish-error').textContent='';
+ $('finish-heading').textContent=p.qp_finished_at?'¿Cómo estuvo el plan?':'¿Ya terminó el plan?';
+ $('finish-submit').textContent=p.qp_finished_at?'Guardar valoración':'Finalizar y guardar';openDialog('finish-sheet');
+}
+async function loadExperience(p){
+ const actor=user?.id;$('plan-experience').hidden=false;$('plan-experience').innerHTML='<p class="field-help">Plan finalizado · este grupo queda en tu historial.</p>';
+ try{
+ const {data,error}=await db.from('qp_plan_reviews').select('rating,comment').eq('plan_id',p.id).maybeSingle();if(error)throw error;
+ if(selectedId!==p.id||user?.id!==actor)return;
+ $('plan-experience').innerHTML='<h3>Así estuvo el plan</h3>'+(data?`<p class="experience-rating">${['','😕 Regular','🙂 Bien','🤩 Excelente'][data.rating]}</p><p>${esc(data.comment)}</p>`:'<p>El organizador todavía no lo valoró.</p>')+(owns(p)?'<button class="secondary" id="edit-experience">'+(data?'Editar valoración':'Valorar el plan')+'</button>':'');
+ const edit=document.getElementById('edit-experience');if(edit)edit.onclick=()=>{openFinish(p);$('plan-rating').value=data?.rating||'';$('rating-comment').value=data?.comment||'';};
+ }catch(error){if(selectedId===p.id)$('plan-experience').textContent=explain(error);}
+}
+$('finish-form').onsubmit=async e=>{
+ e.preventDefault();if($('finish-submit').disabled||!finishId||!user)return;
+ const id=finishId,actor=user.id,rating=Number($('plan-rating').value),comment=$('rating-comment').value.trim();
+ if(!rating&&comment){$('finish-error').textContent='Elige cómo estuvo el plan para guardar tu comentario.';return;}
+ $('finish-submit').disabled=true;$('finish-error').textContent='';
+ try{
+ let p=await readPlan(id);if(user?.id!==actor||!owns(p))throw Error('Solo el organizador puede finalizar y valorar.');
+ if(!p.qp_finished_at){const {data,error}=await db.from('pinta_plans').update({qp_finished_at:new Date().toISOString()}).eq('id',id).eq('owner_id',actor).is('qp_finished_at',null).select('id');if(error)throw error;if(!data?.length){p=await readPlan(id);if(!p.qp_finished_at)throw Error('No se pudo finalizar el plan.');}}
+ if(rating){
+  const {data:existing,error:readError}=await db.from('qp_plan_reviews').select('rating').eq('plan_id',id).maybeSingle();if(readError)throw readError;
+  const result=existing?await db.from('qp_plan_reviews').update({rating,comment}).eq('plan_id',id):await db.from('qp_plan_reviews').insert({plan_id:id,author_id:actor,rating,comment});if(result.error)throw result.error;
+ }
+ $('finish-sheet').close();historyMode='past';view='mine';resetFilters();await loadPlans();await showPlan(id);notice('Guardado en Planes anteriores.');
+ }catch(error){$('finish-error').textContent=explain(error)+' Si el plan ya quedó finalizado, puedes guardar la valoración al volver a intentarlo.';}
+ finally{$('finish-submit').disabled=false;}
+};
+async function readFriendship(id){
+ const {data,error}=await db.from('qp_friendships').select('id,sender_id,receiver_id,status').or(`and(sender_id.eq.${user.id},receiver_id.eq.${id}),and(sender_id.eq.${id},receiver_id.eq.${user.id})`).maybeSingle();if(error)throw error;return data;
+}
+function friendButtons(row,id){
+ if(!row)return `<button class="primary wide" data-friend-send="${esc(id)}">Enviar solicitud de amistad</button><p class="field-help">Disponible cuando hayan compartido un plan finalizado.</p>`;
+ if(row.status==='accepted')return `<p class="detail-status">Ya son amigos</p><button class="text-button" data-friend-delete="${esc(row.id)}">Eliminar amistad</button>`;
+ if(row.receiver_id===user.id)return `<button class="primary" data-friend-accept="${esc(row.id)}">Aceptar solicitud</button> <button class="text-button" data-friend-delete="${esc(row.id)}">Rechazar</button>`;
+ return `<p>Solicitud enviada</p><button class="text-button" data-friend-delete="${esc(row.id)}">Cancelar solicitud</button>`;
+}
+async function renderFriendAction(id,ticket=friendTicket){
+ const actor=user?.id;if(!actor)return;
+ try{const row=await readFriendship(id);if(ticket===friendTicket&&user?.id===actor)$('friend-action').innerHTML=friendButtons(row,id);}
+ catch(error){if(ticket===friendTicket&&user?.id===actor)$('friend-action').textContent=explain(error);}
+}
+let friendsListTicket=0;
+async function loadFriends(){
+ const actor=user?.id,ticket=++friendsListTicket;if(!actor)return;
+ $('friends-list').innerHTML='<p>Buscando amigos…</p>';
+ try{
+ if(!capabilities.v4)throw Error('Primero activa la actualización 4.');
+ const rows=[];for(let start=0;;start+=100){const {data,error}=await db.from('qp_friendships').select('id,sender_id,receiver_id,status,created_at').order('created_at',{ascending:false}).order('id').range(start,start+99);if(error)throw error;rows.push(...data);if(data.length<100)break;}
+ const ids=[...new Set(rows.map(r=>r.sender_id===actor?r.receiver_id:r.sender_id))],profiles=new Map();
+ for(let i=0;i<ids.length;i+=100){const {data,error}=await db.from('qp_profiles').select('id,display_name,avatar_url').in('id',ids.slice(i,i+100));if(error)throw error;(data||[]).forEach(p=>profiles.set(p.id,p));}
+ if(ticket!==friendsListTicket||user?.id!==actor)return;
+ $('friends-list').innerHTML=rows.length?['pending','accepted'].map(status=>`<h3>${status==='pending'?'Solicitudes':'Amigos'}</h3>`+rows.filter(r=>r.status===status).map(row=>{const id=row.sender_id===actor?row.receiver_id:row.sender_id,p=profiles.get(id),name=p?.display_name||'Participante';return `<article class="friend-card"><button class="person-row" data-person="${esc(id)}" data-name="${esc(name)}">${avatar(name,id)}<strong>${esc(name)}</strong></button>${friendButtons(row,id)}</article>`;}).join('')).join(''):'<p>Después de un encuentro, abre Planes anteriores y toca el nombre de una persona para agregarla.</p>';
+ }catch(error){if(ticket===friendsListTicket)$('friends-list').textContent=explain(error);}
+}
+$('show-friends').onclick=()=>{openDialog('friends-sheet');loadFriends();};
+document.addEventListener('click',async e=>{
+ const b=e.target.closest('[data-friend-send],[data-friend-accept],[data-friend-delete]');if(!b||b.disabled||!user)return;
+ b.disabled=true;const actor=user.id;
+ try{
+ let result;
+ if(b.dataset.friendSend){if(!await ensureAdult())return;result=await db.from('qp_friendships').insert({sender_id:actor,receiver_id:b.dataset.friendSend});}
+ else if(b.dataset.friendAccept)result=await db.from('qp_friendships').update({status:'accepted'}).eq('id',b.dataset.friendAccept).eq('receiver_id',actor).eq('status','pending').select('id');
+ else result=await db.from('qp_friendships').delete().eq('id',b.dataset.friendDelete).select('id');
+ if(result.error)throw result.error;if(result.data&&result.data.length===0)throw Error('La solicitud cambió. Actualiza la lista.');
+ if(user?.id!==actor)return;notice(b.dataset.friendSend?'Solicitud enviada':b.dataset.friendAccept?'Ahora son amigos':'Se eliminó la solicitud o amistad');
+ if($('person').open&&friendPerson)await renderFriendAction(friendPerson);if($('friends-sheet').open)await loadFriends();
+ }catch(error){notice(error.code==='42501'?'Solo puedes agregar a alguien con quien compartiste un plan finalizado.':error.code==='23505'?'Ya existe una solicitud entre ustedes.':explain(error));if(error.code==='23505'&&friendPerson)renderFriendAction(friendPerson);}
+ finally{b.disabled=false;}
+});
 
 paintIcons();authUI();updateViewUI();init();
 
