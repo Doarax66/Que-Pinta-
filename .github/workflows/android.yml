@@ -1,4 +1,4 @@
-name: Crear APK de prueba
+name: Crear APK de prueba v4
 
 on:
   workflow_dispatch:
@@ -45,6 +45,9 @@ jobs:
           docker exec -i "$PG_TEST_CONTAINER" psql -U postgres -d qp_fixture -v ON_ERROR_STOP=1 < supabase/ACTIVAR-FUNCIONES.sql
           docker exec -i "$PG_TEST_CONTAINER" psql -U postgres -d qp_fixture -v ON_ERROR_STOP=1 < supabase/ACTIVAR-FUNCIONES.sql
           docker exec -i "$PG_TEST_CONTAINER" psql -U postgres -d qp_fixture -v ON_ERROR_STOP=1 < scripts/database/checks.sql
+          docker exec -i "$PG_TEST_CONTAINER" psql -U postgres -d qp_fixture -v ON_ERROR_STOP=1 < supabase/ACTUALIZAR-V4.sql
+          docker exec -i "$PG_TEST_CONTAINER" psql -U postgres -d qp_fixture -v ON_ERROR_STOP=1 < supabase/ACTUALIZAR-V4.sql
+          docker exec -i "$PG_TEST_CONTAINER" psql -U postgres -d qp_fixture -v ON_ERROR_STOP=1 < scripts/database/checks-v4.sql
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
@@ -72,7 +75,7 @@ jobs:
       - name: Guardar APK
         uses: actions/upload-artifact@v7
         with:
-          name: Que-Pinta-APK-de-prueba
+          name: Que-Pinta-APK-v4
           path: apk-source/mobile/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
@@ -82,4 +85,3 @@ jobs:
           name: Que-Pinta-package-lock
           path: apk-source/mobile/package-lock.json
           if-no-files-found: error
-          
